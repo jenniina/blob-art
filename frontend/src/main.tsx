@@ -10,6 +10,9 @@ import { ThemeProvider } from './contexts/ThemeContext'
 import { ModalProvider } from './hooks/useModal'
 import { LanguageProvider } from './contexts/LanguageContext'
 import { BlobProvider } from './components/Blob/components/BlobProvider'
+import { applyBlobMigrationFromWindowName } from './utils/blobMigration'
+
+applyBlobMigrationFromWindowName()
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
