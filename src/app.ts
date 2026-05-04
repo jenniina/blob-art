@@ -15,7 +15,7 @@ app.set('etag', false)
 // so req.ip reflects the real client IP via X-Forwarded-For.
 app.set('trust proxy', 1)
 
-const PORT: string | number = process.env.PORT || 4000
+const PORT: string | number = 4000
 
 const allowedOrigin = process.env.CORS_ORIGIN ?? 'https://blobs.jenniina.fi'
 

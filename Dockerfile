@@ -23,10 +23,6 @@ WORKDIR /app
 # Copy backend code and node_modules
 COPY --from=backend-build /app /app
 # Copy built frontend
-COPY --from=frontend-build /app/frontend/dist /app/frontend/dist
-# Expose port (adjust if your backend uses a different port)
-EXPOSE 3000
-# Set environment variables (optional)
-ENV NODE_ENV=production
-# Start the backend (adjust if your entry point is different)
+COPY --from=frontend-build /app/frontend/dist /app/frontend/dist 
+EXPOSE 4000 
 CMD ["node", "dist/src/app.js"]
