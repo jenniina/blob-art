@@ -114,42 +114,6 @@
   margin-left: 0.4em;
   color: var(--color-primary-16);
 }
-.logo-container a span {
-  position: absolute;
-  bottom: -1em;
-  left: 1em;
-  width: max-content;
-  font-size: 0.8rem;
-  opacity: 0;
-  color: var(--color-primary-20);
-  -webkit-transform: translateY(-1em);
-  -ms-transform: translateY(-1em);
-  -o-transform: translateY(-1em);
-  -moz-transform: translateY(-1em);
-  transform: translateY(-1em);
-}
-.transformations .logo-container a span {
-  transition-property: transform, opacity;
-  transition-timing-function: ease-in-out;
-  transition-duration: 300ms;
-}
-.logo-container a:hover span {
-  -webkit-transform: translateY(0);
-  -ms-transform: translateY(0);
-  -o-transform: translateY(0);
-  -moz-transform: translateY(0);
-  transform: translateY(0);
-  opacity: 1;
-}
-.logo-container a:focus span,
-.logo-container a:focus-visible span {
-  -webkit-transform: translateY(0.4em);
-  -ms-transform: translateY(0.4em);
-  -o-transform: translateY(0.4em);
-  -moz-transform: translateY(0.4em);
-  transform: translateY(0.4em);
-  opacity: 1;
-}
 .main-header button.togglemenu {
   flex: 1 1 0;
   padding: 0.4em 2% 0.1em;
@@ -299,7 +263,8 @@ button.togglemenu[aria-expanded='true'] .menupath {
   margin: var(--marg) auto 0;
 }
 
-.logo-container big {
+.logo-container a {
+  text-decoration: none;
   margin: 0.4em 0 0.2em;
   font-family: 'Coiny', cursive, sans-serif;
   width: unset;
@@ -307,6 +272,11 @@ button.togglemenu[aria-expanded='true'] .menupath {
   font-size: 1.4em;
   line-height: 0.9;
   letter-spacing: calc(var(--letter-spacing) * -1.5);
+}
+.logo-container a:hover,
+.logo-container a:focus-visible {
+  text-decoration: none;
+  color: var(--color-primary-20);
 }
 
 .logo-menu {
@@ -366,19 +336,6 @@ ul.logo-menu li {
   padding: 0.9em 0.8em 0.6em 1em;
 }
 
-.logo-container ul.logo-menu li a:hover,
-.logo-container ul.logo-menu li a:focus {
-  background: rgba(255, 255, 255, 0.06);
-  outline: none;
-}
-
-.logo-menu.show {
-  opacity: 1;
-  pointer-events: auto;
-  transform: scaleY(1);
-}
-.logo-container a:focus,
-.logo-container a:focus-visible,
 .main-header button:focus-visible,
 .menu-container li a:focus-visible {
   outline: 2px solid currentColor;
@@ -390,7 +347,7 @@ ul.logo-menu li {
   outline-offset: -4px;
 }
 .logo-container a:hover::before,
-.logo-container a:focus::before {
+.logo-container a:focus-visible::before {
   content: '';
   position: absolute;
   top: -2em;
@@ -823,7 +780,7 @@ a.link:visited:not(.active):focus > *,
   .logo-container a {
     margin: 0.13em 0 -0.13em 0.5em;
   }
-  .logo-container big {
+  .logo-container a {
     margin: 0.4em 0 0.1em;
     line-height: 1;
   }
@@ -880,9 +837,9 @@ a.link:visited:not(.active):focus > *,
     right: 0em;
   }
   .menualt .menu-container ul li a:hover,
-  .menualt .menu-container ul li a:focus,
+  .menualt .menu-container ul li a:focus-visible,
   .menualt button.settings:not(:disabled):hover,
-  .menualt button.settings:not(:disabled):focus {
+  .menualt button.settings:not(:disabled):focus-visible {
     -webkit-transform: translate(8px, -3px) scale(1.1);
     -ms-transform: translate(8px, -3px) scale(1.1);
     -o-transform: translate(8px, -3px) scale(1.1);
@@ -909,11 +866,11 @@ a.link:visited:not(.active):focus > *,
     padding: 0;
   }
   .menu-container ul li a:hover svg,
-  .menu-container ul li a:focus svg,
+  .menu-container ul li a:focus-visible svg,
   .main-header button.search:hover svg,
-  .main-header button.search:focus svg,
+  .main-header button.search:focus-visible svg,
   .main-header button.settings:not(:disabled):hover svg,
-  .main-header button.settings:not(:disabled):focus svg {
+  .main-header button.settings:not(:disabled):focus-visible svg {
     opacity: 1;
     -webkit-transform: translateX(-50%) scale(1.4);
     -ms-transform: translateX(-50%) scale(1.4);
@@ -949,20 +906,20 @@ a.link:visited:not(.active):focus > *,
     background-image: linear-gradient(180deg, transparent 50%, var(--color-primary-4) 95%);
   }
   header:not(.menualt) .menu-container ul li a:hover span,
-  header:not(.menualt) .menu-container ul li a:focus span,
+  header:not(.menualt) .menu-container ul li a:focus-visible span,
   header:not(.menualt).main-header button.search:hover span,
-  header:not(.menualt).main-header button.search:focus span,
+  header:not(.menualt).main-header button.search:focus-visible span,
   header:not(.menualt).main-header button.settings:not(:disabled):hover span,
-  header:not(.menualt).main-header button.settings:not(:disabled):focus span {
+  header:not(.menualt).main-header button.settings:not(:disabled):focus-visible span {
     background-position: 50% 98%;
     padding: 0.5em 0.6vw 0.1em;
   }
   .menu-container ul li a:hover span,
-  .menu-container ul li a:focus span,
+  .menu-container ul li a:focus-visible span,
   .main-header button.search:hover span,
-  .main-header button.search:focus span,
+  .main-header button.search:focus-visible span,
   .main-header button.settings:not(:disabled):hover span,
-  .main-header button.settings:not(:disabled):focus span {
+  .main-header button.settings:not(:disabled):focus-visible span {
     position: relative;
     min-width: max-content;
     -webkit-transform: translateY(1.32rem);
@@ -1348,11 +1305,11 @@ button.dlt-btn:focus {
     transform: translateY(100%) translateX(7em);
   }
   .menualt .menu-container:not(.altnav) ul li a:hover span,
-  .menualt .menu-container:not(.altnav) ul li a:focus span,
+  .menualt .menu-container:not(.altnav) ul li a:focus-visible span,
   .menualt button.search:hover span,
-  .menualt button.search:focus span,
+  .menualt button.search:focus-visible span,
   .menualt button.settings:not(:disabled):hover span,
-  .menualt button.settings:not(:disabled):focus span {
+  .menualt button.settings:not(:disabled):focus-visible span {
     position: absolute;
     background-color: transparent;
   }

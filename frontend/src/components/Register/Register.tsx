@@ -44,7 +44,7 @@ const Register = ({
   const formRegisterRef = useRef<HTMLDivElement>(null)
 
   const user = useSelector((state: ReducerProps) => {
-    return state.auth
+    return state.auth?.user
   })
 
   useEffect(() => {

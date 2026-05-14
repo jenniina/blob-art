@@ -201,39 +201,39 @@ main a.disabled *:hover,
 }
 
 main a:hover,
-main a:focus,
+main a:focus-visible,
 main a:visited:hover,
-main a:visited:focus,
+main a:visited:focus-visible,
 main a:hover > *,
-main a:focus > *,
+main a:focus-visible > *,
 main a:visited:hover > *,
-main a:visited:focus > *,
+main a:visited:focus-visible > *,
 button.reset.link:hover,
-button.reset.link:focus,
+button.reset.link:focus-visible,
 button.reset.link:hover > *,
-button.reset.link:focus > * {
+button.reset.link:focus-visible > * {
   color: var(--color-secondary-1);
   text-decoration: underline;
 }
 button.reset.link,
 button.reset.link:hover,
-button.reset.link:focus,
+button.reset.link:focus-visible,
 button.reset.link:hover > *,
-button.reset.link:focus > * {
+button.reset.link:focus-visible > * {
   outline: none;
 }
 .light main a:hover,
-.light main a:focus,
+.light main a:focus-visible,
 .light main a:visited:hover,
-.light main a:visited:focus,
+.light main a:visited:focus-visible,
 .light main a:hover > *,
-.light main a:focus > *,
+.light main a:focus-visible > *,
 .light main a:visited:hover > *,
-.light main a:visited:focus > *,
+.light main a:visited:focus-visible > *,
 .light button.reset.link:hover,
-.light button.reset.link:focus,
+.light button.reset.link:focus-visible,
 .light button.reset.link:hover > *,
-.light button.reset.link:focus > * {
+.light button.reset.link:focus-visible > * {
   color: var(--color-secondary-6);
   background-position: 50% 98%;
   transform-origin: 50% 98%;
@@ -498,10 +498,8 @@ button.gray,
   background-position: 50% 3%;
 }
 .light button.grayer:hover,
-.light button.grayer:focus,
 .light button.grayer:focus-visible,
 .light button.gray:hover,
-.light button.gray:focus,
 .light button.gray:focus-visible {
   background-position: 50% 98%;
   color: var(--color-primary-1);
@@ -613,7 +611,7 @@ button.close {
   border-radius: var(--radius-medium);
 }
 button.close:hover,
-button.close:focus {
+button.close:focus-visible {
   color: inherit;
 }
 button.close span {
@@ -690,12 +688,12 @@ button.reset {
   outline-offset: 0;
 }
 button.reset:hover,
-button.reset:focus {
+button.reset:focus-visible {
   padding: 0.03em 0.06em 0.06em;
   outline-offset: 0;
 }
 button.reset.padding,
 button.reset.padding:hover,
-button.reset.padding:focus {
+button.reset.padding:focus-visible {
   padding: 0.3em 0.6em;
 }
