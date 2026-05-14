@@ -167,19 +167,19 @@ main {
   color: inherit;
 }
 #root .nav-sub .return a.active:hover span,
-#root .nav-sub .return a.active:focus span {
+#root .nav-sub .return a.active:focus-visible span {
   color: var(--color-primary-18);
   text-decoration: none;
 }
 #root .nav-sub .return a.active:hover,
-#root .nav-sub .return a.active:focus {
+#root .nav-sub .return a.active:focus-visible {
   color: var(--color-primary-18);
   border-bottom-color: currentColor;
   border-bottom-color: var(--color-secondary-10);
 }
 
 #root .light .nav-sub .return a.active:hover,
-#root .light .nav-sub .return a.active:focus {
+#root .light .nav-sub .return a.active:focus-visible {
   border-bottom-color: var(--color-secondary-15);
   text-decoration: none;
 }
@@ -234,7 +234,7 @@ main {
   box-shadow: 0 0.1em 0.9em -0.5em var(--color-primary-11);
 }
 .nav-sub ul a:hover,
-.nav-sub ul a:focus {
+.nav-sub ul a:focus-visible {
   color: var(--color-primary-15);
   outline-offset: -2px;
   text-decoration: none;
@@ -243,7 +243,7 @@ main {
   border-bottom-width: 5px;
 }
 .light .nav-sub ul a:hover,
-.light .nav-sub ul a:focus {
+.light .nav-sub ul a:focus-visible {
   color: var(--color-primary-9);
   border-bottom-color: var(--color-secondary-15);
 }
@@ -414,7 +414,6 @@ button.goright svg {
   transform: rotate(90deg);
 }
 button.horizonal-scroll:hover,
-button.horizonal-scroll:focus,
 button.horizonal-scroll:focus-visible {
   color: var(--color-primary-14);
 }
@@ -607,21 +606,20 @@ body .z {
   transition-delay: 0s;
 }
 .main-footer a:hover,
-.main-footer a:focus,
+.main-footer a:focus-visible,
 .main-footer a.footer1:hover,
-.main-footer a.footer1:focus,
+.main-footer a.footer1:focus-visible,
 .main-footer a.footer1:visited:hover,
 .main-footer a.footer1:hover span,
-.main-footer a.footer1:focus span,
+.main-footer a.footer1:focus-visible span,
 .main-footer button:hover,
-.main-footer button:focus,
 .main-footer button:focus-visible {
   color: var(--color-secondary-3);
   text-decoration: none;
 }
 .main-footer button.footer3,
 .main-footer button.footer3:hover,
-.main-footer button.footer3:focus {
+.main-footer button.footer3:focus-visible {
   border: 0;
   outline: 0;
 }
@@ -1088,6 +1086,12 @@ big > i {
 .disclaimer.page h2,
 .disclaimer.page h3 {
   text-align: left;
+}
+
+.breadcrumbs {
+  font-style: italic;
+  font-size: 0.88em;
+  text-align: center;
 }
 
 #root .survey-form > * {

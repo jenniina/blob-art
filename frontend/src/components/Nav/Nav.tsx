@@ -42,6 +42,7 @@ import { getErrorMessage } from '../../utils'
 import { isTouchDevice } from '../../hooks/useDraggable'
 import useExitVisibility from '../../hooks/useExitVisibility'
 import useNoTransition from '../../hooks/useNoTransition'
+import CopyToClipboard from '../CopyToClipboard/CopyToClipboard'
 
 type Form = 'login' | 'register' | 'reset' | null
 
@@ -429,7 +430,7 @@ const Nav = (
               style={{ fontSize: '1.2em', verticalAlign: 'top' }}
               aria-label={t('BlobArt')}
             />
-            <big>{t('BlobArt')}</big>
+            <Link to="/">{t('BlobArt')}</Link>
           </div>
           <button
             className={styles.settings}
@@ -535,56 +536,46 @@ const Nav = (
                       sending={sending}
                     />
                   </div>
+                  <div className="password-reset-wrap">
+                    <Accordion
+                      className="password-reset"
+                      wrapperClass="password-reset-wrap"
+                      text={`${t('ForgotPassword')}`}
+                      isOpen={isResetFormOpen}
+                      setIsFormOpen={bindForm('reset')}
+                      hideBrackets={true}
+                      hideButton={true}
+                    >
+                      <PasswordReset text="login" />
+                    </Accordion>
+                  </div>
+                  <div className="mt3 flex column gap-half left">
+                    <span>{t('IfYouDontWantToRegister')} </span>
+                    <div className="flex align-center column gap-half left">
+                      <CopyToClipboard
+                        value={`temp${String.fromCharCode(64)}jenniina.fi`}
+                        label="temp <at> jenniina <dot> fi"
+                        ariaLabel={t('CopyAddressToClipboard')}
+                        className="m0"
+                        onClick={() => setOpenForm('login')}
+                      />
+                      <div className="flex column gap-half left mt1">
+                        {t('Password')}:{' '}
+                        <CopyToClipboard
+                          value="TempAtJenniina"
+                          label="TempAtJenniina"
+                          ariaLabel={t('CopyToClipboard')}
+                          className="m0"
+                          onClick={() => setOpenForm('login')}
+                        />
+                      </div>
+                    </div>
+                  </div>
                 </>
               ) : (
-                <>
-                  <span>
-                    {t('LoggedInAs')} <i>{user.name ?? user.username}</i>
-                  </span>
-                  <NavLink
-                    to="/edit"
-                    className={({ isActive }) =>
-                      isActive
-                        ? `active ${styles.active} ${styles.link}`
-                        : `${styles.link}`
-                    }
-                  >
-                    <span>{t('Edit')}</span>
-                  </NavLink>
-                  <button
-                    onClick={handleLogout}
-                    id="logoutnav"
-                    className={`logout danger ${styles.logout}`}
-                  >
-                    {t('Logout')} &times;
-                  </button>
-                  <button
-                    disabled={user.name === 'temp'}
-                    onClick={() =>
-                      user && dispatch(logoutAllDevices(user._id ?? ''))
-                    }
-                    className={`reset ${styles['logout-all']}`}
-                  >
-                    [{t('LogoutAllDevices')}]
-                  </button>
-                </>
+                <FormLogin text="nav" />
               )}
             </div>
-            {!user && (
-              <div className="password-reset-wrap">
-                <Accordion
-                  className="password-reset"
-                  wrapperClass="password-reset-wrap"
-                  text={`${t('ForgotPassword')}`}
-                  isOpen={isResetFormOpen}
-                  setIsFormOpen={bindForm('reset')}
-                  hideBrackets={true}
-                  hideButton={true}
-                >
-                  <PasswordReset text="login" />
-                </Accordion>
-              </div>
-            )}
           </nav>
         </div>
       </header>
