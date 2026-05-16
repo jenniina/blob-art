@@ -967,12 +967,15 @@ body.dark-mode .site .drag-container .dragzone:focus {
 .drag-container .label-container {
   position: relative;
 }
+.blob-info-section {
+  margin: 8vh auto 2vh;
+}
 .blob .blob-title-wrap {
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
   align-items: center;
-  margin: 2em auto 3em;
+  margin: 8vh auto 14vh;
   width: max-content;
 }
 .blob .blob-title-wrap .blob-title {

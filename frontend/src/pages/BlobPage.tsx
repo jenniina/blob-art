@@ -90,7 +90,7 @@ export default function BlobPage({ type }: { type: string }) {
       />
       <div className={`blob ${type}`}>
         <div className="inner-wrap">
-          <section>
+          <section className="blob-info-section">
             <div className="mt3">
               <div>
                 <div className="accordion-row">

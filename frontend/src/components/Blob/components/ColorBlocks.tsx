@@ -65,6 +65,11 @@ const ColorBlocks: FC<ColorBlockProps> = ({
             ref={colorBlock}
             key={`${colorPairs[d][index].color1}${index}-${d}`}
             onClick={() => handleClick(color)}
+            aria-label={
+              colorNameKey
+                ? `${t(colorNameKey)}. ${t('ChangeColorInstructions')}`
+                : t('ChangeColorInstructions')
+            }
             className={`colorblock colorblock${index} ${refName?.toLowerCase()} tooltip-wrap ${
               !colorsVisible ? 'hidden' : ''
             } ${isActive ? 'active' : ''} ${isLeftSide ? 'left' : 'right'}`}

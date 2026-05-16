@@ -904,8 +904,10 @@ nav .open.password-reset-container button.forgot-btn {
 .tooltip-wrap.pointer:not(button):not(a) {
   cursor: pointer;
 }
+#root .App .tooltip-wrap:focus-within .tooltip,
 #root .App .tooltip-wrap:focus-visible .tooltip,
 #root .App .tooltip-wrap:hover .tooltip,
+.tooltip-wrap:focus-within .tooltip,
 .tooltip-wrap:focus-visible .tooltip,
 .tooltip-wrap:hover .tooltip {
   visibility: visible;
@@ -986,14 +988,18 @@ nav .open.password-reset-container button.forgot-btn {
   right: unset;
 }
 #root .App .tooltip-wrap:hover .tooltip,
+#root .App .tooltip-wrap:focus-within .tooltip,
 #root .App .tooltip-wrap:focus-visible .tooltip,
 .tooltip-wrap:hover .tooltip,
+.tooltip-wrap:focus-within .tooltip,
 .tooltip-wrap:focus-visible .tooltip {
   visibility: visible;
 }
 #root .App .tooltip-wrap:hover .tooltip::before,
+#root .App .tooltip-wrap:focus-within .tooltip::before,
 #root .App .tooltip-wrap:focus-visible .tooltip::before,
 .tooltip-wrap:hover .tooltip::before,
+.tooltip-wrap:focus-within .tooltip::before,
 .tooltip-wrap:focus-visible .tooltip::before {
   content: '';
   position: absolute;
@@ -1002,16 +1008,20 @@ nav .open.password-reset-container button.forgot-btn {
   z-index: 1;
 }
 #root .App .tooltip-wrap:hover .tooltip.below::before,
+#root .App .tooltip-wrap:focus-within .tooltip.below::before,
 #root .App .tooltip-wrap:focus-visible .tooltip.below::before,
 .tooltip-wrap:hover .tooltip.below::before,
+.tooltip-wrap:focus-within .tooltip.below::before,
 .tooltip-wrap:focus-visible .tooltip.below::before {
   top: calc(var(--tooltip-offset) * -0.9);
   left: calc(var(--tooltip-width) * 0.5);
   border-bottom-color: var(--tooltip-bgcolor);
 }
 #root .App .tooltip-wrap:hover .tooltip.above::before,
+#root .App .tooltip-wrap:focus-within .tooltip.above::before,
 #root .App .tooltip-wrap:focus-visible .tooltip.above::before,
 .tooltip-wrap:hover .tooltip.above::before,
+.tooltip-wrap:focus-within .tooltip.above::before,
 .tooltip-wrap:focus-visible .tooltip.above::before {
   top: unset;
   bottom: calc(var(--tooltip-offset) * -0.95);
@@ -1019,23 +1029,31 @@ nav .open.password-reset-container button.forgot-btn {
   left: 47%;
 }
 #root .App .tooltip-wrap:hover .tooltip.left.above::before,
+#root .App .tooltip-wrap:focus-within .tooltip.left.above::before,
 #root .App .tooltip-wrap:focus-visible .tooltip.left.above::before,
 #root .App .tooltip-wrap:hover .tooltip.left.below::before,
+#root .App .tooltip-wrap:focus-within .tooltip.left.below::before,
 #root .App .tooltip-wrap:focus-visible .tooltip.left.below::before,
 .tooltip-wrap:hover .tooltip.left.above::before,
+.tooltip-wrap:focus-within .tooltip.left.above::before,
 .tooltip-wrap:focus-visible .tooltip.left.above::before,
 .tooltip-wrap:hover .tooltip.left.below::before,
+.tooltip-wrap:focus-within .tooltip.left.below::before,
 .tooltip-wrap:focus-visible .tooltip.left.below::before {
   left: unset;
   right: calc(var(--tooltip-offset) * 0.3);
 }
 #root .App .tooltip-wrap:hover .tooltip.right.above::before,
+#root .App .tooltip-wrap:focus-within .tooltip.right.above::before,
 #root .App .tooltip-wrap:focus-visible .tooltip.right.above::before,
 #root .App .tooltip-wrap:hover .tooltip.right.below::before,
+#root .App .tooltip-wrap:focus-within .tooltip.right.below::before,
 #root .App .tooltip-wrap:focus-visible .tooltip.right.below::before,
 .tooltip-wrap:hover .tooltip.right.above::before,
+.tooltip-wrap:focus-within .tooltip.right.above::before,
 .tooltip-wrap:focus-visible .tooltip.right.above::before,
 .tooltip-wrap:hover .tooltip.right.below::before,
+.tooltip-wrap:focus-within .tooltip.right.below::before,
 .tooltip-wrap:focus-visible .tooltip.right.below::before {
   right: unset;
   left: calc(var(--tooltip-offset) * 0.3);
