@@ -3258,6 +3258,7 @@ export default function DragContainer({
                 ref={makeSmaller0}
                 className={`make-smaller tooltip-wrap gray`}
                 id={`make-smaller${d}`}
+                aria-labelledby={`make-smaller${d}-span`}
                 onClick={() => {
                   toggleMode('scale-down')
                 }}
@@ -3280,6 +3281,7 @@ export default function DragContainer({
                 ref={makeLarger0}
                 className={`make-larger tooltip-wrap gray`}
                 id={`make-larger${d}`}
+                aria-labelledby={`make-larger${d}-span`}
                 onClick={() => {
                   toggleMode('scale-up')
                 }}
@@ -3320,6 +3322,7 @@ export default function DragContainer({
               <button
                 ref={layerDecrease}
                 id={`layer-decrease${d}`}
+                aria-labelledby={`layer-decrease${d}-span`}
                 className={`layer-adjust layer-decrease tooltip-wrap gray`}
                 onClick={() => toggleMode('layer-down')}
               >
@@ -3339,6 +3342,7 @@ export default function DragContainer({
               <button
                 ref={layerIncrease}
                 id={`layer-increase${d}`}
+                aria-labelledby={`layer-increase${d}-span`}
                 className={`layer-adjust layer-increase tooltip-wrap gray`}
                 onClick={() => toggleMode('layer-up')}
               >
@@ -3360,6 +3364,7 @@ export default function DragContainer({
                 ref={deleteBlob0}
                 className={`delete-blob tooltip-wrap gray`}
                 id={`delete-blob${d}`}
+                aria-labelledby={`delete-blob${d}-span`}
                 onClick={() => toggleMode('delete')}
               >
                 <Icon lib="fa" name="FaTimes" aria-hidden="true" />
@@ -3393,6 +3398,7 @@ export default function DragContainer({
                 ref={makeMore0}
                 className={`make-more tooltip-wrap gray`}
                 id={`make-more${d}`}
+                aria-labelledby={`make-more${d}-span`}
                 onClick={() => {
                   toggleMode('clone')
                 }}

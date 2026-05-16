@@ -12,7 +12,7 @@ import { useIsClient, useWindow } from '../../hooks/useSSR'
 import Icon from '../Icon/Icon'
 import BlobArtIcon from '../Icon/BlobArtIcon'
 import styles from './nav.module.css'
-import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useTheme, useThemeUpdate } from '../../hooks/useTheme'
 import useScrollDirection from '../../hooks/useScrollDirection'
 import useWindowSize from '../../hooks/useWindowSize'
@@ -75,12 +75,12 @@ const SkipLink: FC<SkipLinkProps> = ({ skipLinks, styles }) => {
       {skipLinks.map((link: Link) => {
         return (
           <li key={link.href}>
-            <NavLink
+            <Link
               to={link.href}
               className={`${styles['skip-link']} ${styles[link.name]}`}
             >
               {link.label}
-            </NavLink>
+            </Link>
           </li>
         )
       })}
@@ -456,7 +456,7 @@ const Nav = (
             </span>
           </button>
           <nav
-            id="settings-toolbar"
+            id="site-navigation"
             onTransitionEnd={toolbar.onTransitionEnd}
             className={`${styles.toolbar} ${
               toolbar.open ? styles.show : toolbar.hidden ? styles.hidden : ''
