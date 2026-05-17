@@ -1,4 +1,6 @@
+/* 
 @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Coiny&display=swap');
+*/
 
 :root {
   --typography_ratio: 1.18;
@@ -91,8 +93,8 @@
   /* --scrollbar_width: calculated in App.tsx */
 
   --letter-spacing: 0.03em;
-  --text-family: Lato, Helvetica, Arial, sans-serif;
-  --title-family: Coiny, Lato, Helvetica, Arial, sans-serif;
+  --text-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+  --title-family: 'Trebuchet MS', 'Arial Rounded MT Bold', 'Segoe UI', Verdana, sans-serif;
   font-family: var(--text-family);
   font-size: 20px;
   font-weight: 400;
@@ -338,7 +340,7 @@ h6 {
 
 h1 {
   font-size: clamp(var(--title-XL), 10vw, var(--title-XXXL));
-  letter-spacing: calc(var(--letter-spacing) * -1.8);
+  letter-spacing: calc(var(--letter-spacing) * -2);
   position: relative;
   max-width: max-content;
   margin-left: auto;
@@ -512,13 +514,11 @@ body .focus-within:focus-within {
 @media (min-width: 200px) {
   h1 {
     font-size: clamp(var(--title-XL), 12vw, var(--title-XXXL));
-    letter-spacing: calc(var(--letter-spacing) * -1.8);
   }
 }
 @media (min-width: 400px) {
   h1 {
     font-size: clamp(var(--title-XXL), 18vw, var(--title-XXXL));
-    letter-spacing: calc(var(--letter-spacing) * -1.8);
   }
   button,
   button.restore,
@@ -529,7 +529,6 @@ body .focus-within:focus-within {
 @media (min-width: 700px) {
   h1 {
     font-size: clamp(var(--title-XXL), 22vw, var(--title-XXXL));
-    letter-spacing: calc(var(--letter-spacing) * -1.8);
   }
 } /*END media*/
 /* Screen-reader text, visually hidden */

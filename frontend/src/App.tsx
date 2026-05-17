@@ -1,6 +1,5 @@
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import './css/App.css'
-import './css/form.css'
 import Nav from './components/Nav/Nav'
 import Modal from './components/Modal/Modal'
 import Notification from './components/Notification/Notification'
@@ -18,6 +17,10 @@ const App = () => {
     false
   )
   const menuStyleRef = useRef() as RefObject<{ getStyle: () => boolean }>
+
+  useEffect(() => {
+    void import('./css/form.css')
+  }, [])
 
   return (
     <>
