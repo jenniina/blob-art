@@ -131,7 +131,7 @@ const Register = ({
                   </label>
                 </div>
                 <Link
-                  to="/disclaimer"
+                  to="/info"
                   style={{
                     display: 'flex',
                     flexFlow: 'row wrap',
@@ -140,7 +140,7 @@ const Register = ({
                     margin: '1rem auto',
                   }}
                 >
-                  <small>{t('Disclaimer')}</small>
+                  <small>{t('Info')}</small>
                 </Link>
                 <button type="submit" disabled={sending} className="restore">
                   {t('Register')}
