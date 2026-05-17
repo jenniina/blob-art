@@ -968,14 +968,14 @@ body.dark-mode .site .drag-container .dragzone:focus {
   position: relative;
 }
 .blob-info-section {
-  margin: 8vh auto 2vh;
+  margin: 4em auto 2em;
 }
 .blob .blob-title-wrap {
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
   align-items: center;
-  margin: 8vh auto 14vh;
+  margin: 2.6em auto 2.8em;
   width: max-content;
 }
 .blob .blob-title-wrap .blob-title {
@@ -1379,6 +1379,9 @@ body.dark-mode .site .drag-container .dragzone:focus {
   height: 2rem;
   width: 2rem;
   line-height: 0.8;
+  transition-property: background-color, background-position;
+  transition-duration: 0.3s;
+  transition-timing-function: ease-in-out;
 }
 
 .drag-container .make-more {
@@ -1806,6 +1809,9 @@ body.dark-mode .site .drag-container .dragzone:focus {
   }
 }
 @media (min-width: 1000px) {
+  .button-container {
+    gap: 1.8em;
+  }
   .drag-container .drag-slider-single {
     flex: 1 0 calc(28% - var(--gap) * 2);
   }

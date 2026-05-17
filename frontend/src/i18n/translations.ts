@@ -8,6 +8,15 @@ const firstToUpperCase = (str: string) => {
 }
 
 export const translations = {
+  Canvas: {
+    en: 'Canvas',
+    es: 'Lienzo',
+    fr: 'Toile',
+    de: 'Leinwand',
+    pt: 'Tela',
+    cs: 'Plátno',
+    fi: 'Piirtoalue',
+  },
   AndMyOwn: {
     en: 'and my own',
     es: 'y mi propio',
