@@ -14,6 +14,8 @@ import {
   useContext,
   useCallback,
   useMemo,
+  lazy,
+  Suspense,
 } from 'react'
 import { getRandomMinMax, hslToHex, sanitize } from '../../../utils'
 import {
@@ -39,12 +41,14 @@ import { useConfirm } from '../../../contexts/ConfirmContext'
 import { useIsClient, useWindow } from '../../../hooks/useSSR'
 import ColorBlocks from './ColorBlocks'
 import Sliders from './Sliders'
-import DragLayers from './DragLayers'
+// import DragLayers from './DragLayers'
 import { getErrorMessage } from '../../../utils'
 import Icon from '../../Icon/Icon'
 import useLocalStorage from '../../../hooks/useStorage'
 import { useTheme } from '../../../hooks/useTheme'
 import BlobArtIcon from '../../Icon/BlobArtIcon'
+
+const DragLayers = lazy(() => import('./DragLayers'))
 
 // Should be in the same order as colorBlockPropsLeft
 const colorPairsLeft: ColorPair[] = [
@@ -3492,34 +3496,36 @@ export default function DragContainer({
                       position: 'relative',
                     }}
                   >
-                    <DragLayers
-                      layerAmount={layerAmount}
-                      layer_={activeLayer}
-                      hiddenLayers={hiddenLayers}
-                      paused={paused}
-                      changeBlobLayer={changeBlobLayer}
-                      setActiveLayer={setActiveLayer}
-                      highestZIndex={highestZIndex}
-                      dispatch={dispatch}
-                      d={d}
-                      variant={artVariant}
-                      items={draggables[d] ?? []}
-                      getPosition={getPosition}
-                      removeBlob={removeBlob}
-                      dragWrap={dragWrap}
-                      setSelectedvalue0={setSelectedvalue0}
-                      colorIndex={colorIndex}
-                      setColorIndex={setColorIndex}
-                      colorPairs={colorPairsCombo}
-                      colorswitch={colorswitch}
-                      scroll={scroll}
-                      clickOutsideRef={dragWrap}
-                      addRandomDraggable={addRandomDraggable}
-                      mode={mode}
-                      changeColor={changeColor}
-                      onEscapeKey={handleEscapeKey}
-                      setMarkerEnabled={setMarkerEnabled}
-                    />
+                    <Suspense fallback={null}>
+                      <DragLayers
+                        layerAmount={layerAmount}
+                        layer_={activeLayer}
+                        hiddenLayers={hiddenLayers}
+                        paused={paused}
+                        changeBlobLayer={changeBlobLayer}
+                        setActiveLayer={setActiveLayer}
+                        highestZIndex={highestZIndex}
+                        dispatch={dispatch}
+                        d={d}
+                        variant={artVariant}
+                        items={draggables[d] ?? []}
+                        getPosition={getPosition}
+                        removeBlob={removeBlob}
+                        dragWrap={dragWrap}
+                        setSelectedvalue0={setSelectedvalue0}
+                        colorIndex={colorIndex}
+                        setColorIndex={setColorIndex}
+                        colorPairs={colorPairsCombo}
+                        colorswitch={colorswitch}
+                        scroll={scroll}
+                        clickOutsideRef={dragWrap}
+                        addRandomDraggable={addRandomDraggable}
+                        mode={mode}
+                        changeColor={changeColor}
+                        onEscapeKey={handleEscapeKey}
+                        setMarkerEnabled={setMarkerEnabled}
+                      />
+                    </Suspense>
                   </div>
                 </div>
               </div>
