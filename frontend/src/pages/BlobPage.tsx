@@ -12,6 +12,7 @@ import SEO from '../components/SEO/SEO'
 import useWindowSize from '../hooks/useWindowSize'
 import { useModal } from '../hooks/useModal'
 import Icon from '../components/Icon/Icon'
+import BlobArtIcon from '../components/Icon/BlobArtIcon'
 
 export default function BlobPage({ type }: { type: string }) {
   const { t } = useLanguageContext()
@@ -348,6 +349,15 @@ export default function BlobPage({ type }: { type: string }) {
               </div>
             </div>
           </section>
+          <div className="blob-title-wrap tooltip-wrap">
+            <h1 className="blob-title">
+              <BlobArtIcon className="blob-title-svg" />
+              <b>{t('BlobArt')}</b>
+            </h1>
+            <span className="tooltip above narrow2">
+              {t('MoreColorsAvailableThroughRandomBlobButton')}
+            </span>
+          </div>
           <Blobs />
         </div>
       </div>

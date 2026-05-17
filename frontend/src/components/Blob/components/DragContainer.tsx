@@ -727,14 +727,20 @@ export default function DragContainer({
 
   const getCanvasOffsetBounds = useCallback(() => {
     const anchorLeft = dragWrapOutest.current?.getBoundingClientRect().left ?? 0
-    const width = dragWrapOutest.current?.offsetWidth ?? 200
-    const center = width / 2
+    const viewportWidth =
+      getDocumentClientWidth() ||
+      windowWidth ||
+      windowObj?.innerWidth ||
+      minCanvasWidth
 
     return {
       minOffsetX: Math.min(0, -anchorLeft),
-      maxOffsetX: Math.max(0, anchorLeft + canvasViewportPadding + center),
+      maxOffsetX: Math.max(
+        0,
+        viewportWidth - anchorLeft - minCanvasWidth - canvasViewportPadding
+      ),
     }
-  }, [dragWrapOutest])
+  }, [dragWrapOutest, windowObj, windowWidth])
 
   const clampCanvasOffsetX = useCallback(
     (offsetX: number) => {
@@ -1366,52 +1372,6 @@ export default function DragContainer({
       setHighestZIndex(highestZ)
     }
   }, [draggablesD, saveDraggables])
-
-  useEffect(() => {
-    if (!canvasSize) return
-
-    setCanvasSize((prev) => {
-      if (!prev) return prev
-
-      const clampedSize = clampCanvasSize(prev)
-      if (
-        clampedSize.width === prev.width &&
-        clampedSize.height === prev.height
-      ) {
-        return prev
-      }
-
-      return clampedSize
-    })
-
-    setCanvasOffsetX((prev) => {
-      const clampedOffsetX = clampCanvasOffsetX(prev)
-      const outerRect = dragWrapOuter.current?.getBoundingClientRect()
-      const viewportWidth = windowWidth || windowObj?.innerWidth || 0
-
-      if (!outerRect || viewportWidth <= 0) {
-        return clampedOffsetX
-      }
-
-      const overflowRight = outerRect.right - viewportWidth
-      const availableShiftLeft = Math.max(outerRect.left, 0)
-
-      if (overflowRight <= 0 || availableShiftLeft <= 0) {
-        return clampedOffsetX
-      }
-
-      return clampCanvasOffsetX(
-        clampedOffsetX - Math.min(overflowRight, availableShiftLeft)
-      )
-    })
-  }, [
-    canvasSize,
-    clampCanvasOffsetX,
-    clampCanvasSize,
-    windowHeight,
-    windowObj,
-    windowWidth,
-  ])
 
   function makeFromStorage(blobs: Draggable[]) {
     if (!hasBeenMade && blobs && blobs?.length > 0) {
@@ -2185,31 +2145,48 @@ export default function DragContainer({
 
   //END SLIDERS
 
-  function place(element: HTMLElement, x_pos: number, y_pos: number) {
-    if (
-      element &&
-      dragWrap &&
-      dragWrap.current &&
-      dragWrapOuter.current &&
-      dragWrapOutest.current
-    ) {
-      const outestRect = dragWrapOutest.current.getBoundingClientRect()
-      const outerRect = dragWrapOuter.current.getBoundingClientRect()
-      const canvasWidth = dragWrap.current.offsetWidth
-      const canvasHeight = dragWrap.current.offsetHeight
-
-      element.style.left =
-        outerRect.left - outestRect.left + (canvasWidth / 100) * x_pos + 'px'
-      element.style.right = 'unset'
-      element.style.top = (canvasHeight / 100) * y_pos + 'px'
+  function place(
+    element: HTMLElement,
+    x_pos: number,
+    y_pos: number,
+    metrics: {
+      leftOffset: number
+      canvasWidth: number
+      canvasHeight: number
     }
+  ) {
+    element.style.left =
+      metrics.leftOffset + (metrics.canvasWidth / 100) * x_pos + 'px'
+    element.style.right = 'unset'
+    element.style.top = (metrics.canvasHeight / 100) * y_pos + 'px'
   }
 
   const widthResize = useCallback(
     () => {
-      const canvasWidth = dragWrapOuter.current?.offsetWidth
-      const canvasHeight = dragWrapOuter.current?.offsetHeight
+      if (
+        !dragWrap.current ||
+        !dragWrapOuter.current ||
+        !dragWrapOutest.current
+      ) {
+        return
+      }
+
+      const canvasWidth = dragWrapOuter.current.offsetWidth
+      const canvasHeight = dragWrapOuter.current.offsetHeight
       if (!canvasWidth || !canvasHeight) return
+
+      const outestRect = dragWrapOutest.current.getBoundingClientRect()
+      const outerRect = dragWrapOuter.current.getBoundingClientRect()
+      const placementMetrics = {
+        leftOffset: outerRect.left - outestRect.left,
+        canvasWidth: dragWrap.current.offsetWidth,
+        canvasHeight: dragWrap.current.offsetHeight,
+      }
+      const placements: Array<{
+        element: HTMLElement
+        x: number
+        y: number
+      }> = []
 
       const y_pos = [
         0.6, 8.2, 15.8, 23.4, 31, 38.6, 46.2, 53.8, 61.4, 69, 76.6, 84.2, 91.8,
@@ -2219,99 +2196,127 @@ export default function DragContainer({
       const top_pos = 0
       const bottom_pos = 99
       const adjustment = 10
-      //place these items every time the window is resized:
+      // Measure first, then write positions in one pass to avoid layout thrash.
 
-      if (makeSmaller0.current && dragWrap.current)
-        place(
-          makeSmaller0.current,
-          x_pos[0] - (adjustment / canvasWidth) * 100,
-          top_pos -
+      if (makeSmaller0.current) {
+        placements.push({
+          element: makeSmaller0.current,
+          x: x_pos[0] - (adjustment / canvasWidth) * 100,
+          y:
+            top_pos -
             ((makeSmaller0.current.offsetHeight + adjustment) / canvasHeight) *
-              100
-        )
-      if (makeLarger0.current && dragWrap.current)
-        place(
-          makeLarger0.current,
-          x_pos[1] - (makeLarger0.current.offsetWidth / 3 / canvasWidth) * 100,
-          top_pos -
+              100,
+        })
+      }
+      if (makeLarger0.current) {
+        placements.push({
+          element: makeLarger0.current,
+          x:
+            x_pos[1] -
+            (makeLarger0.current.offsetWidth / 3 / canvasWidth) * 100,
+          y:
+            top_pos -
             ((makeLarger0.current.offsetHeight + adjustment) / canvasHeight) *
-              100
-        )
-      if (disableScrollButton.current && dragWrap.current) {
-        place(
-          disableScrollButton.current,
-          x_pos[2] -
+              100,
+        })
+      }
+      if (disableScrollButton.current) {
+        placements.push({
+          element: disableScrollButton.current,
+          x:
+            x_pos[2] -
             (disableScrollButton.current.offsetWidth / 2 / canvasWidth) * 100,
-          top_pos -
+          y:
+            top_pos -
             ((disableScrollButton.current.offsetHeight + adjustment) /
               canvasHeight) *
-              100
-        )
+              100,
+        })
       }
-      if (layerDecrease.current && dragWrap.current)
-        place(
-          layerDecrease.current,
-          x_pos[3] -
+      if (layerDecrease.current) {
+        placements.push({
+          element: layerDecrease.current,
+          x:
+            x_pos[3] -
             (adjustment / 2 / canvasWidth) * 100 -
             (layerDecrease.current.offsetWidth / 2 / canvasWidth) * 100,
-          top_pos -
+          y:
+            top_pos -
             ((layerDecrease.current.offsetHeight + adjustment) / canvasHeight) *
-              100
-        )
-      if (layerIncrease.current && dragWrap.current)
-        place(
-          layerIncrease.current,
-          x_pos[4] +
+              100,
+        })
+      }
+      if (layerIncrease.current) {
+        placements.push({
+          element: layerIncrease.current,
+          x:
+            x_pos[4] +
             (adjustment / canvasWidth) * 100 -
             (layerIncrease.current.offsetWidth / canvasWidth) * 100,
-          top_pos -
+          y:
+            top_pos -
             ((layerIncrease.current.offsetHeight + adjustment) / canvasHeight) *
-              100
-        )
-      if (deleteBlob0.current && dragWrap.current)
-        place(
-          deleteBlob0.current,
-          x_pos[1] - (deleteBlob0.current.offsetWidth / 2 / canvasWidth) * 100,
-          bottom_pos + ((adjustment * 2) / canvasHeight) * 100
-        )
-      if (makeRandom0.current && dragWrap.current)
-        place(
-          makeRandom0.current,
-          x_pos[2] - (makeRandom0.current.offsetWidth / 2 / canvasWidth) * 100,
-          bottom_pos + ((adjustment * 2) / canvasHeight) * 100
-        )
-      if (makeMore0.current && dragWrap.current)
-        place(
-          makeMore0.current,
-          x_pos[3] - (makeMore0.current.offsetWidth / 2 / canvasWidth) * 100,
-          bottom_pos + ((adjustment * 2) / canvasHeight) * 100
-        )
-      if (resizeHandleLeft.current && dragWrap.current)
-        place(
-          resizeHandleLeft.current,
-          x_pos[0] - (adjustment / canvasWidth) * 100,
-          100 + ((adjustment * 1.7) / canvasHeight) * 100
-        )
-      if (resizeHandleRight.current && dragWrap.current)
-        place(
-          resizeHandleRight.current,
-          x_pos[4] -
+              100,
+        })
+      }
+      if (deleteBlob0.current) {
+        placements.push({
+          element: deleteBlob0.current,
+          x:
+            x_pos[1] -
+            (deleteBlob0.current.offsetWidth / 2 / canvasWidth) * 100,
+          y: bottom_pos + ((adjustment * 2) / canvasHeight) * 100,
+        })
+      }
+      if (makeRandom0.current) {
+        placements.push({
+          element: makeRandom0.current,
+          x:
+            x_pos[2] -
+            (makeRandom0.current.offsetWidth / 2 / canvasWidth) * 100,
+          y: bottom_pos + ((adjustment * 2) / canvasHeight) * 100,
+        })
+      }
+      if (makeMore0.current) {
+        placements.push({
+          element: makeMore0.current,
+          x: x_pos[3] - (makeMore0.current.offsetWidth / 2 / canvasWidth) * 100,
+          y: bottom_pos + ((adjustment * 2) / canvasHeight) * 100,
+        })
+      }
+      if (resizeHandleLeft.current) {
+        placements.push({
+          element: resizeHandleLeft.current,
+          x: x_pos[0] - (adjustment / canvasWidth) * 100,
+          y: 100 + ((adjustment * 1.7) / canvasHeight) * 100,
+        })
+      }
+      if (resizeHandleRight.current) {
+        placements.push({
+          element: resizeHandleRight.current,
+          x:
+            x_pos[4] -
             (resizeHandleRight.current.offsetWidth / canvasWidth) * 100 +
             (adjustment / canvasWidth) * 100,
-          100 + ((adjustment * 1.7) / canvasHeight) * 100
-        )
-      // place color blocks:
+          y: 100 + ((adjustment * 1.7) / canvasHeight) * 100,
+        })
+      }
+
       colorBlockPropsCombo.forEach((colorBlockArray) => {
         colorBlockArray.forEach((colorBlock, index) => {
-          if (colorBlock.current && dragWrap.current) {
+          if (colorBlock.current) {
             const x =
               index < colorBlockArray.length / 2
                 ? 0
                 : 100 - (colorBlock.current.offsetWidth / canvasWidth) * 100
             const y = y_pos[index % (colorBlockArray.length / 2)]
-            place(colorBlock.current, x, y)
+            placements.push({ element: colorBlock.current, x, y })
           }
         })
+      })
+
+      placements.forEach(({ element, x, y }) => {
+        place(element, x, y, placementMetrics)
       })
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -3003,15 +3008,7 @@ export default function DragContainer({
   return (
     <>
       <section>
-        <div className="blob-title-wrap tooltip-wrap">
-          <h1 className="blob-title">
-            <BlobArtIcon className="blob-title-svg" />
-            <b>{t('BlobArt')}</b>
-          </h1>
-          <span className="tooltip above narrow2">
-            {t('MoreColorsAvailableThroughRandomBlobButton')}
-          </span>
-        </div>
+        <h2 className="scr">{t('Canvas')}</h2>
         <div>
           <div
             ref={dragContainerRef}
