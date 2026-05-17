@@ -67,12 +67,23 @@ app.use('/api', apiLimiter, routes)
 // Serve static files from the React frontend with explicit options
 app.use(
   express.static(path.join(__dirname, 'frontend', 'client'), {
-    maxAge: '1d',
-    setHeaders: (res, path) => {
-      if (path.endsWith('.js')) {
+    maxAge: 0,
+    setHeaders: (res, filePath) => {
+      const normalizedPath = filePath.replace(/\\/g, '/')
+
+      if (filePath.endsWith('.js')) {
         res.setHeader('Content-Type', 'application/javascript')
-      } else if (path.endsWith('.css')) {
+      } else if (filePath.endsWith('.css')) {
         res.setHeader('Content-Type', 'text/css')
+      }
+
+      if (normalizedPath.includes('/assets/')) {
+        res.setHeader('Cache-Control', 'public, max-age=31536000, immutable')
+        return
+      }
+
+      if (filePath.endsWith('.html')) {
+        res.setHeader('Cache-Control', 'no-cache')
       }
     },
   })

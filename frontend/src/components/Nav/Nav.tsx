@@ -10,7 +10,7 @@ import React, {
 } from 'react'
 import { useIsClient, useWindow } from '../../hooks/useSSR'
 import Icon from '../Icon/Icon'
-import BlobArtIcon from '../Icon/BlobArtIcon'
+import BlobArtLogo from '../Icon/BlobArtLogo'
 import styles from './nav.module.css'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useTheme, useThemeUpdate } from '../../hooks/useTheme'
@@ -425,12 +425,14 @@ const Nav = (
                 : styles['logo-container']
             }`}
           >
-            <BlobArtIcon
-              className={styles['logo-svg']}
-              style={{ fontSize: '1.2em', verticalAlign: 'top' }}
-              aria-label={t('BlobArt')}
-            />
-            <Link to="/">{t('BlobArt')}</Link>
+            <Link to="/">
+              <BlobArtLogo
+                className={styles['logo-svg']}
+                style={{ fontSize: '1.2em', verticalAlign: 'top' }}
+                aria-label={t('BlobArt')}
+              />
+            </Link>
+            <span className="scr">{t('BlobArt')}</span>
           </div>
           <button
             className={styles.settings}

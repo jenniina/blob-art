@@ -169,10 +169,8 @@ button.togglemenu[aria-expanded='true'] .menupath {
   border-width: 0 0 1px 1px;
   border-radius: 0 0 0 var(--radius-small);
 }
-.transformations.menualt .menu-container,
 .transformations .menu-container,
-.transformations .toolbar,
-.transformations.menualt button.settings {
+.transformations .toolbar {
   transition-property: transform, opacity, top;
   transition-duration: 0.3s;
   transition-timing-function: ease-in-out;
@@ -266,7 +264,7 @@ button.togglemenu[aria-expanded='true'] .menupath {
 .logo-container a {
   text-decoration: none;
   margin: 0.4em 0 0.2em;
-  font-family: 'Coiny', cursive, sans-serif;
+  font-family: var(--title-family);
   width: unset;
   padding: 0;
   font-size: 1.4em;
@@ -482,51 +480,6 @@ a.link:visited:not(.active):focus > *,
   align-self: flex-start;
   width: max-content;
 }
-.toolbar button.navstyle {
-  padding: 0.1em 0.5em 0.1em;
-  -webkit-transform: rotate(180deg);
-  -ms-transform: rotate(180deg);
-  -o-transform: rotate(180deg);
-  -moz-transform: rotate(180deg);
-  transform: rotate(180deg);
-}
-.transformations .toolbar button.navstyle svg {
-  transition-property: transform, fill;
-  transition-duration: 0.3s;
-  transition-timing-function: ease-in-out;
-}
-.navstyle .dots {
-  -webkit-transform: scale(1.2);
-  -ms-transform: scale(1.2);
-  -o-transform: scale(1.2);
-  -moz-transform: scale(1.2);
-  transform: scale(1.2);
-}
-.navstyle .dashes {
-  margin-top: 0;
-}
-.toolbar button.navstyle:hover svg {
-  -webkit-transform: scale(1.3);
-  -ms-transform: scale(1.3);
-  -o-transform: scale(1.3);
-  -moz-transform: scale(1.3);
-  transform: scale(1.3);
-}
-.toolbar button.navstyle:hover .dots {
-  -webkit-transform: scale(1.7);
-  -ms-transform: scale(1.7);
-  -o-transform: scale(1.7);
-  -moz-transform: scale(1.7);
-  transform: scale(1.7);
-}
-.toolbar button.navstyle svg.dots,
-.menualt .toolbar button.navstyle svg.dashes {
-  display: inline-block;
-}
-.menualt .toolbar button.navstyle svg.dots,
-.toolbar button.navstyle svg.dashes {
-  display: none;
-}
 
 .toolbar .loginregister {
   --marg: 1rem;
@@ -613,10 +566,8 @@ a.link:visited:not(.active):focus > *,
 /***************************** (max-width: 699px) *****************************/
 @media (max-width: 699px) {
   /*if you change the pixel amount, also change below min-width 
-  and const breakpoint in Nav.tsx
-  and in menualt */
-  .menu-container,
-  .menualt .menu-container {
+  and const breakpoint in Nav.tsx */
+  .menu-container {
     position: absolute;
     padding: 0;
     top: calc(var(--height));
@@ -638,8 +589,7 @@ a.link:visited:not(.active):focus > *,
     -moz-transform: translateX(110%);
     transform: translateX(110%);
   }
-  .menu-container.show,
-  .menualt .menu-container.keepvisible {
+  .menu-container.show {
     -webkit-transform: translateX(0);
     -ms-transform: translateX(0);
     -o-transform: translateX(0);
@@ -707,27 +657,6 @@ a.link:visited:not(.active):focus > *,
     margin-right: 0;
   }
 
-  /* .main-header:not(.menualt) .menu-container .Welcome .link svg, */
-  .main-header.menualt .menu-container .Welcome .link img {
-    display: none;
-  }
-  /* .main-header:not(.menualt) .menu-container .Welcome .link span {
-    clip: rect(1px, 1px, 1px, 1px);
-    -webkit-clip-path: inset(50%);
-    -moz-clip-path: inset(50%);
-    -ms-clip-path: inset(50%);
-    -o-clip-path: inset(50%);
-    clip-path: inset(50%);
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    line-height: 1px;
-    overflow: hidden;
-    word-wrap: normal;
-    padding: 0;
-    margin: -1px;
-    border: 0;
-  } */
   .toolbar .toolwrap {
     flex-flow: column nowrap;
     align-items: center;
@@ -753,8 +682,7 @@ a.link:visited:not(.active):focus > *,
 
 @media (min-width: 700px) {
   /*if you change the pixel amount, also change above max-width 
-  and const breakpoint in Nav.tsx
-  and in menualt */
+  and const breakpoint in Nav.tsx */
   .menumain .link.active {
     border-bottom: 1px solid currentcolor;
   }
@@ -836,16 +764,6 @@ a.link:visited:not(.active):focus > *,
     left: 0em;
     right: 0em;
   }
-  .menualt .menu-container ul li a:hover,
-  .menualt .menu-container ul li a:focus-visible,
-  .menualt button.settings:not(:disabled):hover,
-  .menualt button.settings:not(:disabled):focus-visible {
-    -webkit-transform: translate(8px, -3px) scale(1.1);
-    -ms-transform: translate(8px, -3px) scale(1.1);
-    -o-transform: translate(8px, -3px) scale(1.1);
-    -moz-transform: translate(8px, -3px) scale(1.1);
-    transform: translate(8px, -3px) scale(1.1);
-  }
   .menu-container ul li a svg,
   .main-header button.search svg,
   .main-header button.settings svg {
@@ -893,24 +811,24 @@ a.link:visited:not(.active):focus > *,
     transform: translateY(0.2em);
     opacity: 0;
   }
-  header:not(.menualt) .menu-container ul li a span,
-  header:not(.menualt).main-header button.search span,
-  header:not(.menualt).main-header button.settings span {
+  header .menu-container ul li a span,
+  header.main-header button.search span,
+  header.main-header button.settings span {
     background-image: linear-gradient(180deg, transparent 50%, var(--color-primary-3) 95%);
     background-size: 100% 200%;
     background-position: 50% 3%;
   }
-  header:not(.menualt).light .menu-container ul li a span,
-  header:not(.menualt).main-header.light button.search span,
-  header:not(.menualt).main-header.light button.settings span {
+  header.light .menu-container ul li a span,
+  header.main-header.light button.search span,
+  header.main-header.light button.settings span {
     background-image: linear-gradient(180deg, transparent 50%, var(--color-primary-4) 95%);
   }
-  header:not(.menualt) .menu-container ul li a:hover span,
-  header:not(.menualt) .menu-container ul li a:focus-visible span,
-  header:not(.menualt).main-header button.search:hover span,
-  header:not(.menualt).main-header button.search:focus-visible span,
-  header:not(.menualt).main-header button.settings:not(:disabled):hover span,
-  header:not(.menualt).main-header button.settings:not(:disabled):focus-visible span {
+  header .menu-container ul li a:hover span,
+  header .menu-container ul li a:focus-visible span,
+  header.main-header button.search:hover span,
+  header.main-header button.search:focus-visible span,
+  header.main-header button.settings:not(:disabled):hover span,
+  header.main-header button.settings:not(:disabled):focus-visible span {
     background-position: 50% 98%;
     padding: 0.5em 0.6vw 0.1em;
   }
@@ -1133,99 +1051,6 @@ button.dlt-btn:focus {
   transition: transform 0.4s ease-in-out;
 }
 
-/*
-/*
-/******************************************************/
-/*******        Alternate Mobile Menu          *******/
-/****************************************************/
-
-@media (max-width: 699px) {
-  /*if you change the pixel amount, also change above max-width and min-width
-  and const breakpoint in Nav.tsx */
-  .main-header.menualt > * {
-    position: initial;
-  }
-  /* .menualt .togglemenu:not(.togglemenuexception) {
-    display: none;
-  } */
-  .menualt .menu-container:not(.altnav) {
-    position: absolute;
-    display: flex;
-    flex-flow: row nowrap;
-    top: calc(100vh - 4.4em - 1px);
-    height: 4.4em;
-    right: unset;
-    left: 0;
-    width: 100%;
-    max-width: calc(100vw - var(--scrollbar_width));
-    background-color: var(--color-primary-3);
-    border: 1px solid var(--color-primary-1);
-    border-bottom-color: var(--color-primary-11);
-    border-top-color: var(--color-primary-11);
-    padding: 0.3rem 0 0.4rem;
-    visibility: visible;
-    transform: none;
-  }
-  @media (max-width: 399px) {
-    .menualt .menu-container:not(.altnav) {
-      top: calc(100vh - 3.4em - 1px);
-      height: 3.4em;
-    }
-  }
-  .main-header.menualt .menu-container.hidden,
-  .main-header.menualt.hide .menu-container {
-    top: calc(100vh + 4.5em);
-    visibility: visible;
-  }
-  .menualt .menu-container:not(.altnav) ul {
-    flex-flow: row nowrap;
-    width: 100%;
-  }
-  .menualt .menu-container ul a {
-    font-size: 0.85rem;
-    display: flex;
-    flex-flow: column nowrap;
-    align-items: center;
-    padding: 0.6rem 0 1vw;
-  }
-
-  .menualt .menu-container:not(.altnav) ul a svg {
-    font-size: clamp(10px, 5vw, 1.2em);
-    margin: 0;
-    margin-bottom: 0.2rem;
-  }
-  .menualt.transformations .menu-container:not(.altnav) ul a svg {
-    transition-property: transform;
-    transition-duration: 0.3s;
-    transition-timing-function: ease-in-out;
-  }
-  .menualt .menu-container:not(.altnav) ul a:hover svg {
-    -webkit-transform: scale(2.1);
-    -ms-transform: scale(2.1);
-    -o-transform: scale(2.1);
-    -moz-transform: scale(2.1);
-    transform: scale(2.1);
-  }
-  .menualt .menu-container.altexception {
-    padding: 0.3em 2em 1em;
-  }
-  .menu-container.altexception > ul > li > a {
-    display: flex;
-    flex-flow: row wrap;
-    align-items: center;
-
-    justify-content: center;
-  }
-} /*END media*/
-
-.menualt .toolbar button.navstyle {
-  -webkit-transform: rotate(0deg);
-  -ms-transform: rotate(0deg);
-  -o-transform: rotate(0deg);
-  -moz-transform: rotate(0deg);
-  transform: rotate(0deg);
-}
-
 @media (min-width: 400px) {
   .logo-container .logo-menu {
     width: max-content;
@@ -1239,226 +1064,9 @@ button.dlt-btn:focus {
   }
 } /*END media*/
 
-@media (min-width: 700px) {
-  .menualt .menu-container:not(.altnav) ul li a,
-  .menualt button.search,
-  .menualt button.settings {
-    overflow: hidden;
-    -webkit-transform-origin: right;
-    -ms-transform-origin: right;
-    -o-transform-origin: right;
-    -moz-transform-origin: right;
-    transform-origin: right;
-    align-items: center;
-    padding: 0.8em 1.4rem 0em;
-    min-width: max-content;
-  }
-  .menualt .menu-container:not(.altnav) ul li a svg,
-  .menualt button.search svg,
-  .menualt button.settings svg {
-    position: relative;
-    top: 0;
-    left: 0;
-    opacity: 1;
-    -webkit-transform: scale(1);
-    -ms-transform: scale(1);
-    -o-transform: scale(1);
-    -moz-transform: scale(1);
-    transform: scale(1);
-  }
-
-  .menualt.transformations .menu-container:not(.altnav) ul li a svg,
-  .menualt.transformations button.search svg,
-  .menualt.transformations button.settings svg {
-    transition-property: opacity, transform, fill;
-    transition-duration: 0.3s;
-    transition-timing-function: ease-in-out;
-  }
-
-  .menualt .menu-container:not(.altnav) ul li a span,
-  .menualt button.search span,
-  .menualt button.settings span {
-    font-size: 0.8em;
-    position: absolute;
-    bottom: 50%;
-    left: 50%;
-    -webkit-transform: translateY(100%) translateX(5em);
-    -ms-transform: translateY(100%) translateX(5em);
-    -o-transform: translateY(100%) translateX(5em);
-    -moz-transform: translateY(100%) translateX(5em);
-    transform: translateY(100%) translateX(5em);
-    -webkit-transform-origin: right;
-    -ms-transform-origin: right;
-    -o-transform-origin: right;
-    -moz-transform-origin: right;
-    transform-origin: right;
-    background-color: transparent;
-    padding: 0.1em 0 0;
-    opacity: 1;
-    word-break: keep-all;
-  }
-  .menualt button.settings span {
-    -webkit-transform: translateY(100%) translateX(7em);
-    -ms-transform: translateY(100%) translateX(7em);
-    -o-transform: translateY(100%) translateX(7em);
-    -moz-transform: translateY(100%) translateX(7em);
-    transform: translateY(100%) translateX(7em);
-  }
-  .menualt .menu-container:not(.altnav) ul li a:hover span,
-  .menualt .menu-container:not(.altnav) ul li a:focus-visible span,
-  .menualt button.search:hover span,
-  .menualt button.search:focus-visible span,
-  .menualt button.settings:not(:disabled):hover span,
-  .menualt button.settings:not(:disabled):focus-visible span {
-    position: absolute;
-    background-color: transparent;
-  }
-  .menualt.transformations .menu-container:not(.altnav) ul li a span,
-  .menualt.transformations .menu-container:not(.altnav) ul li a svg,
-  .menualt.transformations button.search span,
-  .menualt.transformations button.search svg,
-  .menualt.transformations button.settings span,
-  .menualt.transformations button.settings svg {
-    transition-property: transform, opacity, color, fill, background-position;
-    transition-duration: 0.3s;
-    transition-timing-function: ease-in-out;
-  }
-  .menualt .menu-container:not(.altnav) ul li a:hover span,
-  .menualt .menu-container:not(.altnav) ul li a:focus-visible span,
-  .menualt .menu-container:not(.altnav) ul li a:focus span,
-  .menualt button.search:hover span,
-  .menualt button.search:focus span,
-  .menualt button.search:focus-visible span,
-  .menualt button.settings:not(:disabled):hover span,
-  .menualt button.settings:not(:disabled):focus span,
-  .menualt button.settings:not(:disabled):focus span,
-  .menualt button.settings:not(:disabled):focus-visible span,
-  .menualt .menu-container:not(.altnav) ul .link.active span {
-    opacity: 1;
-    -webkit-transform: translateY(100%) translateX(-50%);
-    -ms-transform: translateY(100%) translateX(-50%);
-    -o-transform: translateY(100%) translateX(-50%);
-    -moz-transform: translateY(100%) translateX(-50%);
-    transform: translateY(100%) translateX(-50%);
-    -webkit-transform-origin: right;
-    -ms-transform-origin: right;
-    -o-transform-origin: right;
-    -moz-transform-origin: right;
-    transform-origin: right;
-  }
-  .menualt .menu-container:not(.altnav) ul li a:hover svg,
-  .menualt .menu-container:not(.altnav) ul li a:focus svg,
-  .menualt .menu-container:not(.altnav) ul li a:focus-visible svg,
-  .menualt button.search:hover svg,
-  .menualt button.search:focus svg,
-  .menualt button.search:focus-visible svg,
-  .menualt button.settings:not(:disabled):hover svg,
-  .menualt button.settings:not(:disabled):focus svg,
-  .menualt button.settings:not(:disabled):focus-visible svg,
-  .menualt .menu-container:not(.altnav) ul .link.active svg {
-    opacity: 0;
-    -webkit-transform: scale(0.6);
-    -ms-transform: scale(0.6);
-    -o-transform: scale(0.6);
-    -moz-transform: scale(0.6);
-    transform: scale(0.6);
-  }
-  .menualt button.settings {
-    padding-right: 2.8em;
-  }
-} /*END media*/
-
-@media (min-width: 1000px) {
-  .menualt .menu-container:not(.altnav) ul li a,
-  .menualt button.search,
-  .menualt button.settings {
-    padding: 0.9em 1rem 0.12em;
-  }
-  .menualt .menu-container:not(.altnav) ul li a svg,
-  .menualt button.search svg,
-  .menualt button.settings svg {
-    -webkit-transform-origin: center;
-    -ms-transform-origin: center;
-    -o-transform-origin: center;
-    -moz-transform-origin: center;
-    transform-origin: center;
-  }
-  .menualt .menu-container:not(.altnav) ul li a:hover svg,
-  .menualt .menu-container:not(.altnav) ul li a:focus svg,
-  .menualt button.search:hover svg,
-  .menualt button.search:focus svg,
-  .menualt button.settings:not(:disabled):hover svg,
-  .menualt button.settings:not(:disabled):focus svg {
-    opacity: 1;
-    -webkit-transform: scale(1.4);
-    -ms-transform: scale(1.4);
-    -o-transform: scale(1.4);
-    -moz-transform: scale(1.4);
-    transform: scale(1.4);
-  }
-  .menualt .menu-container:not(.altnav) ul .link.active svg {
-    opacity: 1;
-    -webkit-transform: scale(1);
-    -ms-transform: scale(1);
-    -o-transform: scale(1);
-    -moz-transform: scale(1);
-    transform: scale(1);
-  }
-  .menualt .menu-container:not(.altnav) ul li a span,
-  .menualt button.search span,
-  .menualt button.settings span {
-    position: relative;
-    top: 0;
-    left: 0;
-    -webkit-transform: translateY(0%) translateX(0%);
-    -ms-transform: translateY(0%) translateX(0%);
-    -o-transform: translateY(0%) translateX(0%);
-    -moz-transform: translateY(0%) translateX(0%);
-    transform: translateY(0%) translateX(0%);
-  }
-  .menualt .menu-container:not(.altnav) ul li a:hover span,
-  .menualt .menu-container:not(.altnav) ul li a:focus span,
-  .menualt button.search:hover span,
-  .menualt button.search:focus span,
-  .menualt button.settings:not(:disabled):hover span,
-  .menualt button.settings:not(:disabled):focus span,
-  .menualt .menu-container:not(.altnav) ul .link.active span {
-    position: relative;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    -webkit-transform: translateY(0%) translateX(0%);
-    -ms-transform: translateY(0%) translateX(0%);
-    -o-transform: translateY(0%) translateX(0%);
-    -moz-transform: translateY(0%) translateX(0%);
-    transform: translateY(0%) translateX(0%);
-  }
-} /*END media*/
 .main-header button.search {
   display: none;
 }
-@media (max-width: 400px) {
-  .menualt .menu-container ul a span {
-    clip: rect(1px, 1px, 1px, 1px);
-    -webkit-clip-path: inset(50%);
-    -moz-clip-path: inset(50%);
-    -ms-clip-path: inset(50%);
-    -o-clip-path: inset(50%);
-    clip-path: inset(50%);
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    line-height: 1px;
-    overflow: hidden;
-    word-wrap: normal;
-    padding: 0;
-    margin: -1px;
-    border: 0;
-  }
-  .menualt .menu-container:not(.altnav) ul a svg.smallnav {
-    margin-bottom: 0.2rem;
-  }
-} /*END media*/
 
 button.settings:disabled:hover {
   cursor: default;
@@ -1474,49 +1082,4 @@ button.store:disabled,
 button.cart:disabled {
   background: transparent;
   border: 0;
-}
-
-.main-header.menualt.mobile > * {
-  position: initial;
-}
-/* .menualt.mobile .togglemenu:not(.togglemenuexception) {
-  display: none;
-} */
-.main-header.menualt.mobile .menu-container {
-  position: absolute;
-  display: flex;
-  flex-flow: row nowrap;
-  top: calc(100vh - var(--height) - 4.4em - 1px);
-  height: 4.4em;
-  right: unset;
-  left: 0;
-  z-index: 999;
-  width: 100%;
-  max-width: calc(100vw - var(--scrollbar_width));
-  background-color: var(--color-primary-3);
-  border: 1px solid var(--color-primary-1);
-  border-bottom-color: var(--color-primary-11);
-  border-top-color: var(--color-primary-11);
-  padding: 0.4em 0;
-  visibility: visible;
-}
-.main-header.menualt.mobile .menu-container > * {
-  height: auto;
-  padding: 0.2rem 0;
-}
-.main-header.menualt.mobile .menu-container.hidden,
-.main-header.menualt.mobile.hide .menu-container {
-  top: calc(100vh + 4.5em);
-  visibility: visible;
-}
-.menualt.mobile .menu-container:not(.altnav) ul {
-  flex-flow: row nowrap;
-  width: 100%;
-}
-.menualt.mobile .menu-container ul a {
-  font-size: 0.85em;
-  display: flex;
-  flex-flow: column nowrap;
-  align-items: center;
-  padding: 4vw 0 1vw;
 }
