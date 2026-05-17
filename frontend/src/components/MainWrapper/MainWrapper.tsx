@@ -1,7 +1,7 @@
 import { Suspense, lazy } from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
+import BlobPage from '../../pages/BlobPage'
 
-const BlobPage = lazy(() => import('../../pages/BlobPage'))
 const UserEditPage = lazy(() => import('../../pages/UserEditPage'))
 
 const MainWrapper = () => {
