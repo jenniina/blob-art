@@ -150,6 +150,7 @@ button.togglemenu[aria-expanded='true'] .menupath {
   justify-content: center;
   flex-flow: row nowrap;
   gap: 0.6em;
+  z-index: 111;
 }
 .main-header button.settings svg {
   order: 1;
