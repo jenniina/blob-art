@@ -12,24 +12,18 @@ import Footer from './components/Footer/Footer'
 import ScrollToTop from './components/ScrollToTop/ScrollToTop'
 
 const App = () => {
-  const [styleMenu, setStyleMenu] = useLocalStorage<boolean>(
-    'styleOfMenu',
-    false
-  )
-  const menuStyleRef = useRef() as RefObject<{ getStyle: () => boolean }>
-
   useEffect(() => {
     void import('./css/form.css')
   }, [])
 
   return (
     <>
-      <UIProvider menuStyle={menuStyleRef}>
+      <UIProvider>
         <ConfirmProvider>
-          <Nav setStyleMenu={setStyleMenu} ref={menuStyleRef} />
+          <Nav />
           <MainWrapper />
-          <Footer styleMenu={styleMenu} />
-          <ScrollToTop styleMenu={styleMenu} />
+          <Footer />
+          <ScrollToTop />
           <Modal />
           <Notification />{' '}
         </ConfirmProvider>

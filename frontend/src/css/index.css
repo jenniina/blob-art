@@ -153,8 +153,8 @@ body * {
   box-sizing: border-box;
   word-break: break-word;
 }
-.transformations a,
-.transformations a > *,
+a,
+a > *,
 #modal-root a,
 #modal-root a > * {
   transition-property: color, border, transform, font-size, fill, background-position;
@@ -466,9 +466,9 @@ button.gray,
   background-position: 50% 98%;
   color: var(--color-primary-1);
 }
-.transformations button,
-.transformations button.restore,
-.transformations .button,
+button,
+button.restore,
+.button,
 #modal-root button,
 #modal-root button.restore,
 #modal-root .button {

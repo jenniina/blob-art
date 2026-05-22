@@ -11,7 +11,7 @@
   background-color: transparent;
   z-index: 99;
 }
-.main-header.transformations {
+.main-header {
   transition-property: top;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 500ms;
@@ -129,7 +129,7 @@ button.togglemenu .menupath {
   /*https://mavo.io/demos/svgpath/*/
   stroke-dasharray: 0 116 64 50 44 60 60 1000;
 }
-.transformations button.togglemenu .menupath {
+button.togglemenu .menupath {
   transition-property: stroke-dasharray, stroke-dashoffset;
   transition-timing-function: ease-in-out;
   transition-duration: 600ms;
@@ -170,8 +170,8 @@ button.togglemenu[aria-expanded='true'] .menupath {
   border-width: 0 0 1px 1px;
   border-radius: 0 0 0 var(--radius-small);
 }
-.transformations .menu-container,
-.transformations .toolbar {
+.menu-container,
+.toolbar {
   transition-property: transform, opacity, top;
   transition-duration: 0.3s;
   transition-timing-function: ease-in-out;
@@ -604,7 +604,7 @@ a.link:visited:not(.active):focus-visible > *,
   .menu-container ul li a svg {
     margin-right: 0.6rem;
   }
-  .transformations .menu-container ul li a svg {
+  .menu-container ul li a svg {
     transition-property: transform, fill;
     transition-duration: 0.3s;
     transition-timing-function: ease-in-out;
@@ -632,9 +632,9 @@ a.link:visited:not(.active):focus-visible > *,
     align-self: center;
   }
 
-  .transformations.main-header button.search svg,
-  .transformations.main-header button.settings svg,
-  .transformations.main-header button.togglemenu svg {
+  .main-header button.search svg,
+  .main-header button.settings svg,
+  .main-header button.togglemenu svg {
     transition-property: transform, fill;
     transition-duration: 0.3s;
     transition-timing-function: ease-in-out;
@@ -853,17 +853,17 @@ a.link:visited:not(.active):focus-visible > *,
     transform-origin: top;
     opacity: 1;
   }
-  .transformations .menu-container ul li a svg,
-  .transformations.main-header button.search svg,
-  .transformations.main-header button.settings svg {
+  .menu-container ul li a svg,
+  .main-header button.search svg,
+  .main-header button.settings svg {
     transition-property: transform, opacity, color, fill;
     transition-duration: 0.3s;
     transition-timing-function: ease-in-out;
   }
 
-  .transformations .menu-container ul li a span,
-  .transformations.main-header button.search span,
-  .transformations.main-header button.settings span {
+  .menu-container ul li a span,
+  .main-header button.search span,
+  .main-header button.settings span {
     transition-property: transform, opacity, color, background-color, background-position;
     transition-duration: 0.3s;
     transition-delay: 0s;
@@ -915,7 +915,7 @@ button.dlt-btn {
   font-size: calc(var(--size) * 0.5);
   margin-top: -0.8em;
 }
-.transformations button.dlt-btn {
+button.dlt-btn {
   transition-property: transform;
   transition-duration: 0.4s;
   transition-timing-function: ease-in-out;

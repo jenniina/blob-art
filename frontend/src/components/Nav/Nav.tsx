@@ -3,7 +3,6 @@ import React, {
   useState,
   useEffect,
   forwardRef,
-  Ref,
   useRef,
   useCallback,
   useMemo,
@@ -41,7 +40,6 @@ import { useLanguageContext } from '../../contexts/LanguageContext'
 import { getErrorMessage } from '../../utils'
 import { isTouchDevice } from '../../hooks/useDraggable'
 import useExitVisibility from '../../hooks/useExitVisibility'
-import useNoTransition from '../../hooks/useNoTransition'
 import CopyToClipboard from '../CopyToClipboard/CopyToClipboard'
 
 type Form = 'login' | 'register' | 'reset' | null
@@ -50,10 +48,6 @@ export interface Link {
   label: string
   href: string
   name: string
-}
-
-interface NavProps {
-  setStyleMenu: (style: boolean) => void
 }
 
 interface LinkComponentProps {
@@ -88,10 +82,7 @@ const SkipLink: FC<SkipLinkProps> = ({ skipLinks, styles }) => {
   )
 }
 
-const Nav = (
-  { setStyleMenu }: NavProps,
-  ref: Ref<{ getStyle: () => boolean }>
-) => {
+const Nav = () => {
   const isClient = useIsClient()
   const windowObj = useWindow()
 
@@ -138,21 +129,6 @@ const Nav = (
       setOpenForm(next ? form : null)
     },
     []
-  )
-
-  const { noTransition, arm } = useNoTransition()
-
-  const toggleMainMenu = useCallback(
-    (windowWidth: number) => {
-      if (!mainMenu.open) {
-        mainMenu.show()
-        // if you want mutual exclusivity on small screens
-        if (toolbar.open && windowWidth < breakpoint) toolbar.hide()
-      } else {
-        mainMenu.hide()
-      }
-    },
-    [mainMenu, toolbar]
   )
 
   const toggleToolbar = useCallback(
@@ -246,11 +222,6 @@ const Nav = (
   })
 
   useOutsideClick({ ref: logoRef, onOutsideClick: closeLogoMenu })
-
-  useEffect(() => {
-    //to avoid ugly transformations between the two states, set delay before transforms are se
-    arm()
-  }, [lightTheme, arm])
 
   const [scrolled, setScrolled] = useState(false) //when false, keeps header visible
 
@@ -409,7 +380,6 @@ const Nav = (
                 ${
                   windowHeight > windowWidth && touchDevice ? styles.mobile : ''
                 } 
-                ${!noTransition ? `${styles.transformations}` : ''} 
                 ${styles[`${language}`]}
                 `}
       >
