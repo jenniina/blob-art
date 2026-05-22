@@ -534,7 +534,7 @@ svg.filter {
 .drag-slider:hover {
   opacity: 1;
 }
-.drag-container .drag-slider:focus {
+.drag-container .drag-slider:focus-visible {
   border-radius: var(--size);
   outline: dashed 2px currentColor;
   outline-offset: 0;
@@ -659,7 +659,7 @@ svg.filter {
   margin: 0.3em 0 0.3em;
 }
 .drag-container button.reset-blobs:hover,
-.drag-container button.reset-blobs:focus {
+.drag-container button.reset-blobs:focus-visible {
   border-color: red;
   outline: 1px dashed red;
   outline-offset: 3px;
@@ -935,8 +935,8 @@ svg.filter {
 
 .drag-container .dragzone:hover,
 .drag-container .dragzone.drag,
-.drag-container .dragzone:focus,
-body.dark-mode .site .drag-container .dragzone:focus {
+.drag-container .dragzone:focus-visible,
+body.dark-mode .site .drag-container .dragzone:focus-visible {
   outline: white calc(var(--i) * 0.6px) solid;
   outline-offset: calc(var(--i) * -0.6px);
 }
@@ -1000,7 +1000,6 @@ body.dark-mode .site .drag-container .dragzone:focus {
 }
 
 #root .drag-container .colorblock:hover,
-#root .drag-container .colorblock:focus,
 #root .drag-container .colorblock:focus-visible,
 #root .drag-container .colorblock.active {
   z-index: 1300;
@@ -1226,7 +1225,7 @@ body.dark-mode .site .drag-container .dragzone:focus {
   outline-offset: -3px;
 }
 .drag-container .layer-mover-control-wrap button:hover,
-.drag-container .layer-mover-control-wrap button:focus {
+.drag-container .layer-mover-control-wrap button:focus-visible {
   border: 3px solid var(--color-primary-14);
   outline: 4px solid var(--color-primary-14);
   outline-offset: -3px;
@@ -1410,7 +1409,6 @@ body.dark-mode .site .drag-container .dragzone:focus {
   border-color: red;
 }
 .drag-container .delete-blob:hover,
-.drag-container .delete-blob:focus,
 .drag-container .delete-blob:focus-visible {
   outline: 4px solid red;
   outline-offset: 0;
@@ -1741,14 +1739,12 @@ body.dark-mode .site .drag-container .dragzone:focus {
 }
 #root .blob .accordion-row > button,
 #root .blob .accordion-row > button:hover,
-#root .blob .accordion-row > button:focus,
 #root .blob .accordion-row > button:focus-visible {
   outline: none;
   background-image: none;
   background-color: transparent;
 }
 #root .blob .accordion-row > button:hover svg,
-#root .blob .accordion-row > button:focus svg,
 #root .blob .accordion-row > button:focus-visible svg {
   outline: 2px solid currentColor;
   outline-offset: -4px;

@@ -35,12 +35,12 @@
   border: 0;
 }
 .main-header button:hover,
-.main-header button:focus {
+.main-header button:focus-visible {
   outline: none;
 }
 
 .main-header nav:not(.toolbar) button:hover span,
-.main-header nav:not(.toolbar) button:focus span {
+.main-header nav:not(.toolbar) button:focus-visible span {
   opacity: 1;
   -webkit-transform: translateX(-50%) scale(1);
   -ms-transform: translateX(-50%) scale(1);
@@ -417,18 +417,18 @@ a.link:visited:not(.active) > *,
   right: 2em;
 }
 .link:hover,
-.link:focus {
+.link:focus-visible {
   text-decoration: none;
 }
 a.link:hover,
-a.link:focus,
+a.link:focus-visible,
 a.link:hover svg,
-a.link:focus span,
+a.link:focus-visible span,
 a.link:visited,
 a.link:visited:not(.active):hover > *,
-a.link:visited:not(.active):focus > *,
+a.link:visited:not(.active):focus-visible > *,
 .main-header button:hover,
-.main-header button:focus {
+.main-header button:focus-visible {
   color: var(--color-primary-16);
 }
 .portfolio > .link.active {
@@ -507,7 +507,7 @@ a.link:visited:not(.active):focus > *,
   padding: 0.5em 0;
 }
 .toolbar .loginregister button.logout:hover,
-.toolbar .loginregister button.logout:focus {
+.toolbar .loginregister button.logout:focus-visible {
   outline: dashed 2px red;
   outline-offset: 6px;
 }
@@ -542,7 +542,7 @@ a.link:visited:not(.active):focus > *,
   transform: translateX(-105%);
   transition: 0.3s transform ease-in-out;
 }
-.skip-link:focus {
+.skip-link:focus-visible {
   width: max-content;
   -webkit-transform: translateX(0%);
   -ms-transform: translateX(0%);
@@ -920,7 +920,7 @@ button.dlt-btn {
   transition-duration: 0.4s;
   transition-timing-function: ease-in-out;
 }
-button.dlt-btn:focus {
+button.dlt-btn:focus-visible {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   -o-box-shadow: none;
@@ -929,7 +929,7 @@ button.dlt-btn:focus {
   outline: none;
 }
 .dlt-btn:hover,
-.dlt-btn:focus {
+.dlt-btn:focus-visible {
   -webkit-transform: scale(1.2);
   -ms-transform: scale(1.2);
   -o-transform: scale(1.2);
@@ -1027,7 +1027,7 @@ button.dlt-btn:focus {
 .light .dlt-btn:hover .dlt-btn-inner-left::after {
   border: calc(var(--size) * 0.07) solid var(--color-primary-20);
 }
-.dlt-btn:focus .dlt-btn-inner-left::after {
+.dlt-btn:focus-visible .dlt-btn-inner-left::after {
   outline: 1px solid currentColor;
   outline-offset: 1px;
 }
