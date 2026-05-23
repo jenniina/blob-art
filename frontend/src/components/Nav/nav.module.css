@@ -138,9 +138,6 @@ button.togglemenu[aria-expanded='true'] .menupath {
   stroke-dasharray: 0 115 58 0 58 142 0 222 116 1000;
   stroke-dashoffset: 116;
 }
-.main-header button.search {
-  flex: 1 1 0;
-}
 .main-header button.settings {
   flex: 1 0 0;
   outline: none;
@@ -617,10 +614,6 @@ a.link:visited:not(.active):focus-visible > *,
     transform: scale(2.1);
   }
 
-  .main-header button.search svg {
-    margin: 0.2em 0 -0.2em;
-  }
-  .main-header button.search svg,
   .main-header button.settings svg,
   .main-header button.togglemenu svg {
     margin-right: 0.5rem;
@@ -632,14 +625,12 @@ a.link:visited:not(.active):focus-visible > *,
     align-self: center;
   }
 
-  .main-header button.search svg,
   .main-header button.settings svg,
   .main-header button.togglemenu svg {
     transition-property: transform, fill;
     transition-duration: 0.3s;
     transition-timing-function: ease-in-out;
   }
-  .main-header button.search:hover svg,
   .main-header button.settings:not(:disabled):hover svg,
   .main-header button.togglemenu:hover svg {
     -webkit-transform: scale(1.8);
@@ -651,7 +642,6 @@ a.link:visited:not(.active):focus-visible > *,
 } /*END media*/
 
 @media (max-width: 400px) {
-  .main-header button.search svg,
   .main-header button.settings svg,
   .main-header button.menutoggle svg {
     margin-left: 0;
@@ -738,7 +728,6 @@ a.link:visited:not(.active):focus-visible > *,
     height: 100%;
   }
   .menu-container ul li a,
-  .main-header button.search,
   .main-header button.settings,
   .main-header button.togglemenu {
     padding: 0 0.8vw 0.12em;
@@ -766,7 +755,6 @@ a.link:visited:not(.active):focus-visible > *,
     right: 0em;
   }
   .menu-container ul li a svg,
-  .main-header button.search svg,
   .main-header button.settings svg {
     position: absolute;
     min-width: max-content;
@@ -786,8 +774,6 @@ a.link:visited:not(.active):focus-visible > *,
   }
   .menu-container ul li a:hover svg,
   .menu-container ul li a:focus-visible svg,
-  .main-header button.search:hover svg,
-  .main-header button.search:focus-visible svg,
   .main-header button.settings:not(:disabled):hover svg,
   .main-header button.settings:not(:disabled):focus-visible svg {
     opacity: 1;
@@ -798,7 +784,6 @@ a.link:visited:not(.active):focus-visible > *,
     transform: translateX(-50%) scale(1.4);
   }
   .menu-container ul li a span,
-  .main-header button.search span,
   .main-header button.settings span {
     position: relative;
     min-width: max-content;
@@ -813,21 +798,17 @@ a.link:visited:not(.active):focus-visible > *,
     opacity: 0;
   }
   header .menu-container ul li a span,
-  header.main-header button.search span,
   header.main-header button.settings span {
     background-image: linear-gradient(180deg, transparent 50%, var(--color-primary-3) 95%);
     background-size: 100% 200%;
     background-position: 50% 3%;
   }
   header.light .menu-container ul li a span,
-  header.main-header.light button.search span,
   header.main-header.light button.settings span {
     background-image: linear-gradient(180deg, transparent 50%, var(--color-primary-4) 95%);
   }
   header .menu-container ul li a:hover span,
   header .menu-container ul li a:focus-visible span,
-  header.main-header button.search:hover span,
-  header.main-header button.search:focus-visible span,
   header.main-header button.settings:not(:disabled):hover span,
   header.main-header button.settings:not(:disabled):focus-visible span {
     background-position: 50% 98%;
@@ -835,8 +816,6 @@ a.link:visited:not(.active):focus-visible > *,
   }
   .menu-container ul li a:hover span,
   .menu-container ul li a:focus-visible span,
-  .main-header button.search:hover span,
-  .main-header button.search:focus-visible span,
   .main-header button.settings:not(:disabled):hover span,
   .main-header button.settings:not(:disabled):focus-visible span {
     position: relative;
@@ -854,7 +833,6 @@ a.link:visited:not(.active):focus-visible > *,
     opacity: 1;
   }
   .menu-container ul li a svg,
-  .main-header button.search svg,
   .main-header button.settings svg {
     transition-property: transform, opacity, color, fill;
     transition-duration: 0.3s;
@@ -862,7 +840,6 @@ a.link:visited:not(.active):focus-visible > *,
   }
 
   .menu-container ul li a span,
-  .main-header button.search span,
   .main-header button.settings span {
     transition-property: transform, opacity, color, background-color, background-position;
     transition-duration: 0.3s;
@@ -879,15 +856,10 @@ a.link:visited:not(.active):focus-visible > *,
     padding: 0.3em 0.6rem 0.12em;
     align-items: flex-end;
   }
-  .main-header button.search,
   .main-header button.settings {
     padding: 0 1.2rem 0.12em;
     align-items: flex-end;
     flex: 0 0 max-content;
-  }
-  .main-header button.store,
-  .main-header button.cart {
-    padding: 0.3em 0rem 0.12em 0.6rem;
   }
 } /*END media*/
 
@@ -1065,10 +1037,6 @@ button.dlt-btn:focus-visible {
   }
 } /*END media*/
 
-.main-header button.search {
-  display: none;
-}
-
 button.settings:disabled:hover {
   cursor: default;
   color: var(--color-primary-20);
@@ -1078,9 +1046,4 @@ button.settings:disabled:hover svg {
   border-radius: 50%;
   outline: 1px solid currentColor;
   outline-offset: 3px;
-}
-button.store:disabled,
-button.cart:disabled {
-  background: transparent;
-  border: 0;
 }
