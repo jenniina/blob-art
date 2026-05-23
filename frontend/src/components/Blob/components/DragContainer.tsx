@@ -27,7 +27,7 @@ import {
   Modes,
 } from '../types'
 import { BlobContext } from './BlobProvider'
-import { ReducerProps } from '../../../types'
+import { breakpoint, ReducerProps } from '../../../types'
 import useWindowSize from '../../../hooks/useWindowSize'
 import { useSelector } from 'react-redux'
 import { useAppDispatch } from '../../../hooks/useAppDispatch'
@@ -1473,7 +1473,7 @@ export default function DragContainer({
     }
   }, [isClient, windowObj])
 
-  const amountOfBlobs = windowWidth > 700 ? 10 : 6 // Initial amount of blobs
+  const amountOfBlobs = windowWidth > breakpoint ? 10 : 6 // Initial amount of blobs
 
   const resetDocumentScroll = useCallback(() => {
     if (document !== null) {
@@ -2192,7 +2192,8 @@ export default function DragContainer({
           x: x_pos[0] - (adjustment / canvasWidth) * 100,
           y:
             top_pos -
-            ((makeSmaller0.current.offsetHeight + adjustment) / canvasHeight) *
+            ((makeSmaller0.current.offsetHeight + adjustment / 2) /
+              canvasHeight) *
               100,
         })
       }
@@ -2204,7 +2205,8 @@ export default function DragContainer({
             (makeLarger0.current.offsetWidth / 3 / canvasWidth) * 100,
           y:
             top_pos -
-            ((makeLarger0.current.offsetHeight + adjustment) / canvasHeight) *
+            ((makeLarger0.current.offsetHeight + adjustment / 2) /
+              canvasHeight) *
               100,
         })
       }
@@ -2216,7 +2218,7 @@ export default function DragContainer({
             (disableScrollButton.current.offsetWidth / 2 / canvasWidth) * 100,
           y:
             top_pos -
-            ((disableScrollButton.current.offsetHeight + adjustment) /
+            ((disableScrollButton.current.offsetHeight + adjustment / 3) /
               canvasHeight) *
               100,
         })
@@ -2230,7 +2232,8 @@ export default function DragContainer({
             (layerDecrease.current.offsetWidth / 2 / canvasWidth) * 100,
           y:
             top_pos -
-            ((layerDecrease.current.offsetHeight + adjustment) / canvasHeight) *
+            ((layerDecrease.current.offsetHeight + adjustment / 2) /
+              canvasHeight) *
               100,
         })
       }
@@ -2243,7 +2246,8 @@ export default function DragContainer({
             (layerIncrease.current.offsetWidth / canvasWidth) * 100,
           y:
             top_pos -
-            ((layerIncrease.current.offsetHeight + adjustment) / canvasHeight) *
+            ((layerIncrease.current.offsetHeight + adjustment / 2) /
+              canvasHeight) *
               100,
         })
       }
@@ -3015,7 +3019,7 @@ export default function DragContainer({
           >
             <div
               id={`button-container${d}`}
-              className={'button-container'}
+              className="button-container"
               style={{
                 overflow: 'visible',
               }}

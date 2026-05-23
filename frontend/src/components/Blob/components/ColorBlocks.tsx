@@ -4,6 +4,7 @@ import { useLanguageContext } from '../../../contexts/LanguageContext'
 import { TranslationKey } from '../../../i18n/translations'
 import Icon from '../../Icon/Icon'
 import { CanvasSize } from './DragContainer'
+import { breakpoint } from '../../../types'
 
 interface ColorBlockProps {
   d: number
@@ -80,7 +81,7 @@ const ColorBlocks: FC<ColorBlockProps> = ({
                     ? '2rem'
                     : '1.85rem',
               width:
-                effectiveCanvasSize && effectiveCanvasSize.width > 700
+                effectiveCanvasSize && effectiveCanvasSize.width > breakpoint
                   ? '2rem'
                   : '1.5rem',
               background: color,
@@ -91,7 +92,7 @@ const ColorBlocks: FC<ColorBlockProps> = ({
               }`,
               ['--full-amount' as string]: colorLength,
               ['--alert-distance' as string]:
-                effectiveCanvasSize && effectiveCanvasSize.width > 700
+                effectiveCanvasSize && effectiveCanvasSize.width > breakpoint
                   ? '2.1rem'
                   : '1.55rem',
             }}
@@ -114,7 +115,7 @@ const ColorBlocks: FC<ColorBlockProps> = ({
                 left:
                   isLeftSide &&
                   effectiveCanvasSize &&
-                  effectiveCanvasSize.width > 700
+                  effectiveCanvasSize.width > breakpoint
                     ? '2.1rem'
                     : isLeftSide
                       ? '1.7rem'
@@ -122,7 +123,7 @@ const ColorBlocks: FC<ColorBlockProps> = ({
                 right:
                   !isLeftSide &&
                   effectiveCanvasSize &&
-                  effectiveCanvasSize.width > 700
+                  effectiveCanvasSize.width > breakpoint
                     ? '2.1rem'
                     : !isLeftSide
                       ? '1.7rem'

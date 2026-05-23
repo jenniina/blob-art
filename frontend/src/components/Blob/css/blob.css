@@ -1054,8 +1054,8 @@ body.dark-mode .site .drag-container .dragzone:focus-visible {
 }
 
 .blob.page .drag-container .disable-scroll {
-  width: 2.4rem;
-  height: 2.4rem;
+  width: 2.3rem;
+  height: 2.3rem;
   font-size: 2rem;
   border-radius: 50%;
   padding: 0;
@@ -1792,7 +1792,6 @@ body.dark-mode .site .drag-container .dragzone:focus-visible {
 @media (min-width: 300px) {
   .button-container {
     flex-flow: row wrap;
-    gap: 1.1em;
   }
   .button-container > div:nth-child(odd) {
     margin-top: -0.22rem;
@@ -1800,13 +1799,19 @@ body.dark-mode .site .drag-container .dragzone:focus-visible {
   }
 }
 @media (min-width: 700px) {
+  .accordion-row {
+    gap: calc(var(--gap) * 1.3);
+  }
+  .button-container {
+    gap: 1.3em;
+  }
   .drag-container .layer-mover-control-wrap button {
     padding: 0.1em 0.45em 0.2em;
   }
 }
 @media (min-width: 1000px) {
   .accordion-row {
-    gap: calc(var(--gap) * 1.4);
+    gap: calc(var(--gap) * 1.8);
   }
   .accordion-wrap .button {
     height: 4rem;
@@ -1814,7 +1819,7 @@ body.dark-mode .site .drag-container .dragzone:focus-visible {
     padding: 0.8rem;
   }
   .button-container {
-    gap: 1.8em;
+    gap: 2em;
   }
   .drag-container .drag-slider-single {
     flex: 1 0 calc(28% - var(--gap) * 2);
