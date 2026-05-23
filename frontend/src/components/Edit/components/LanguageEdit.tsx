@@ -18,9 +18,8 @@ const LanguageEdit = ({ user, options }: Props) => {
   const dispatch = useAppDispatch()
   const [passwordOld, setPasswordOld] = useState<IUser['password']>('')
   const { t, language, setLanguage } = useLanguageContext()
-  const [lang, setLang] = useState<ELanguages>(
-    (user?.language as ELanguages) ?? language
-  )
+  const initialLanguage = (user?.language ?? language) as ELanguages
+  const [lang, setLang] = useState<ELanguages>(initialLanguage)
   const [sending, setSending] = useState(false)
 
   const handleUserSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -92,7 +91,7 @@ const LanguageEdit = ({ user, options }: Props) => {
               ? ({
                   value: lang,
                   label: ELanguagesLong[lang],
-                } as SelectOption)
+                })
               : undefined
           }
           onChange={(option) => {

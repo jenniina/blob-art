@@ -6,7 +6,6 @@ import {
   ComplianceResult,
 } from '../components/AccessibleColors/AccessibleColors'
 import {
-  ECategories,
   EJokeType,
   ESafemode,
   TCategoryByLanguages,
@@ -353,7 +352,7 @@ export function getKeyByValue(
     | typeof EJokeType
     | typeof ESafemode
     | typeof ELanguages,
-  value: ECategories | EJokeType | ESafemode | ELanguages
+  value: string
 ) {
   for (const key in enumObj) {
     if (enumObj[key as keyof typeof enumObj] === value) {

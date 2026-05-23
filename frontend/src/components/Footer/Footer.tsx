@@ -3,7 +3,7 @@ import Icon from '../Icon/Icon'
 import { useLanguageContext } from '../../contexts/LanguageContext'
 import { useIsClient, useWindow } from '../../hooks/useSSR'
 
-const Footer: FC<{ styleMenu: boolean | undefined }> = ({ styleMenu }) => {
+const Footer: FC = () => {
   const isClient = useIsClient()
   const windowObj = useWindow()
 
@@ -37,10 +37,7 @@ const Footer: FC<{ styleMenu: boolean | undefined }> = ({ styleMenu }) => {
   }, [isClient, windowObj, scrollY])
 
   return (
-    <footer
-      id="main-footer"
-      className={`main-footer ${styleMenu ? 'alt' : ''}`}
-    >
+    <footer id="main-footer" className={`main-footer`}>
       <a className="footer1" href="https://react.jenniina.fi/">
         <span>{t('Portfolio')}</span>
       </a>

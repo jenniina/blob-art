@@ -5,9 +5,7 @@ import { useLocation } from 'react-router-dom'
 import { useLanguageContext } from '../../contexts/LanguageContext'
 import { useIsClient, useWindow } from '../../hooks/useSSR'
 
-const ScrollToTop: FC<{
-  styleMenu: boolean | undefined
-}> = ({ styleMenu }) => {
+const ScrollToTop: FC = () => {
   const isClient = useIsClient()
   const windowObj = useWindow()
 
@@ -54,7 +52,7 @@ const ScrollToTop: FC<{
       id="to-top-btn"
       className={`to-top-btn ${styles['to-top-btn']} ${
         showTopBtn ? styles.show : ''
-      } ${styleMenu ? styles.alt : ''}`}
+      }`}
       onClick={goToTop}
     >
       <Icon lib="bi" name="BiChevronsUp" className={styles.icon} />

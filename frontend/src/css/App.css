@@ -275,7 +275,7 @@ main {
   -ms-animation: 0.5s fadeOutUp forwards;
   animation: 0.5s fadeOutUp forwards;
 }
-.nav-sub.transformations ul {
+.nav-subul {
   transition-property: right, left;
   transition-timing-function: cubic-bezier(0.15, 0, 0.85, 1);
   transition-duration: 600ms;
@@ -594,12 +594,12 @@ body .z {
   outline: 0;
   border: 0;
 }
-.transformations .main-footer a,
+.main-footer a,
 .main-footer a.footer1,
 .main-footer button {
   color: var(--color-primary-13);
 }
-.transformations .main-footer a.footer1 * {
+.main-footer a.footer1 * {
   transition-property: color, border, transform, font-size, fill;
   transition-timing-function: ease-in-out;
   transition-duration: 200ms;
@@ -623,17 +623,9 @@ body .z {
   border: 0;
   outline: 0;
 }
-.main-footer.alt {
-  padding-bottom: 8em; /*To accommodate mobile altnav*/
-  flex-flow: column nowrap;
-}
 @media (min-width: 600px) {
   .main-footer {
     display: flex;
-    flex-flow: row wrap;
-  }
-  .main-footer.alt {
-    padding-bottom: 8em; /*To accommodate mobile altnav*/
     flex-flow: row wrap;
   }
 }

@@ -2,10 +2,10 @@ import { useEffect } from 'react'
 import type { ComponentType, CSSProperties } from 'react'
 import { iconLibraries } from './iconLibraries'
 
-type IconLibraries = typeof iconLibraries
-type IconLib = keyof IconLibraries
+type IconLib = keyof typeof iconLibraries
+type IconComponent = ComponentType<Record<string, unknown>>
 
-type BaseIconProps = {
+interface BaseIconProps {
   className?: string
   style?: CSSProperties
   height?: string
@@ -16,17 +16,19 @@ type BaseIconProps = {
   'aria-label'?: string
 }
 
+interface EmptyIconProps extends BaseIconProps {
+  lib?: undefined
+  name?: undefined
+}
+
 type IconProps =
   | {
       [L in IconLib]: BaseIconProps & {
         lib: L
-        name: keyof IconLibraries[L]
+        name: keyof (typeof iconLibraries)[L]
       }
     }[IconLib]
-  | (BaseIconProps & {
-      lib?: undefined
-      name?: undefined
-    })
+  | EmptyIconProps
 
 const Icon = ({
   lib,
@@ -44,9 +46,9 @@ const Icon = ({
   // const IconComp = lib && name ? (library?.[name] ?? null) : null
   const IconComp =
     lib && name
-      ? (((iconLibraries[lib] as Record<string, ComponentType<any>>)[
+      ? (((iconLibraries[lib] as Record<string, IconComponent>)[
           name as string
-        ] ?? null) as ComponentType<any> | null)
+        ] ?? null) as IconComponent | null)
       : null
 
   const isMissing = !lib || !name || !library || !IconComp

@@ -118,7 +118,7 @@ const forgot = async (
 }
 const revokeSessions = async (id: string) => {
   const response = await api.post(`${baseUrl}/${id}/revoke-sessions`)
-  return response.data
+  return response.data as IResponse
 }
 
 const getPublicUserNamesByIds = async (
@@ -128,8 +128,8 @@ const getPublicUserNamesByIds = async (
   if (uniqueIds.length === 0) return {}
 
   const response = await api.post('/users/public/names', { ids: uniqueIds })
-
-  const users = (response.data?.users ?? []) as IPublicUserName[]
+  const data = response.data as { users?: IPublicUserName[] }
+  const users = data.users ?? []
   const map: TPublicUserNamesMap = {}
 
   for (const user of users) {

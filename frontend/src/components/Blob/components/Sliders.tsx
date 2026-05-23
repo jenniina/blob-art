@@ -5,19 +5,19 @@ interface SlidersProps {
   d: number
   sliderLightnessInput: React.RefObject<HTMLInputElement>
   setSliderLightVal: (val: string) => void
-  sliderLightness: () => void
+  sliderLightness: (val: string) => void
   sliderLightVal: string
   defaultLightness: string
   sliderLightnessReset: () => void
   sliderSaturationInput: React.RefObject<HTMLInputElement>
   setSliderSatVal: (val: string) => void
-  sliderSaturation: () => void
+  sliderSaturation: (val: string) => void
   sliderSatVal: string
   defaultSaturation: string
   sliderSaturationReset: () => void
   sliderHueInput: React.RefObject<HTMLInputElement>
   setSliderHueVal: (val: string) => void
-  sliderHue: () => void
+  sliderHue: (val: string) => void
   sliderHueVal: string
   defaultHue: string
   sliderHueReset: () => void
@@ -55,17 +55,17 @@ const Sliders: FC<SlidersProps> = ({
           </label>
           <input
             ref={sliderHueInput}
-            onChange={e => {
+            onChange={(e) => {
               setSliderHueVal(e.target.value)
-              sliderHue()
+              sliderHue(e.target.value)
             }}
-            onMouseUp={e => {
-              setSliderHueVal((e.target as HTMLInputElement).value)
-              sliderHue()
+            onMouseUp={(e) => {
+              setSliderHueVal(e.currentTarget.value)
+              sliderHue(e.currentTarget.value)
             }}
-            onPointerUp={e => {
-              setSliderHueVal((e.target as HTMLInputElement).value)
-              sliderHue()
+            onPointerUp={(e) => {
+              setSliderHueVal(e.currentTarget.value)
+              sliderHue(e.currentTarget.value)
             }}
             type="range"
             min={0}
@@ -93,17 +93,17 @@ const Sliders: FC<SlidersProps> = ({
           </label>
           <input
             ref={sliderSaturationInput}
-            onChange={e => {
+            onChange={(e) => {
               setSliderSatVal(e.target.value)
-              sliderSaturation()
+              sliderSaturation(e.target.value)
             }}
-            onMouseUp={e => {
-              setSliderSatVal((e.target as HTMLInputElement).value)
-              sliderSaturation()
+            onMouseUp={(e) => {
+              setSliderSatVal(e.currentTarget.value)
+              sliderSaturation(e.currentTarget.value)
             }}
-            onPointerUp={e => {
-              setSliderSatVal((e.target as HTMLInputElement).value)
-              sliderSaturation()
+            onPointerUp={(e) => {
+              setSliderSatVal(e.currentTarget.value)
+              sliderSaturation(e.currentTarget.value)
             }}
             type="range"
             min={0}
@@ -132,17 +132,17 @@ const Sliders: FC<SlidersProps> = ({
           </label>
           <input
             ref={sliderLightnessInput}
-            onChange={e => {
+            onChange={(e) => {
               setSliderLightVal(e.target.value)
-              sliderLightness()
+              sliderLightness(e.target.value)
             }}
-            onMouseUp={e => {
-              setSliderLightVal((e.target as HTMLInputElement).value)
-              sliderLightness()
+            onMouseUp={(e) => {
+              setSliderLightVal(e.currentTarget.value)
+              sliderLightness(e.currentTarget.value)
             }}
-            onPointerUp={e => {
-              setSliderLightVal((e.target as HTMLInputElement).value)
-              sliderLightness()
+            onPointerUp={(e) => {
+              setSliderLightVal(e.currentTarget.value)
+              sliderLightness(e.currentTarget.value)
             }}
             type="range"
             min={0}

@@ -534,7 +534,7 @@ svg.filter {
 .drag-slider:hover {
   opacity: 1;
 }
-.drag-container .drag-slider:focus {
+.drag-container .drag-slider:focus-visible {
   border-radius: var(--size);
   outline: dashed 2px currentColor;
   outline-offset: 0;
@@ -659,7 +659,7 @@ svg.filter {
   margin: 0.3em 0 0.3em;
 }
 .drag-container button.reset-blobs:hover,
-.drag-container button.reset-blobs:focus {
+.drag-container button.reset-blobs:focus-visible {
   border-color: red;
   outline: 1px dashed red;
   outline-offset: 3px;
@@ -935,8 +935,8 @@ svg.filter {
 
 .drag-container .dragzone:hover,
 .drag-container .dragzone.drag,
-.drag-container .dragzone:focus,
-body.dark-mode .site .drag-container .dragzone:focus {
+.drag-container .dragzone:focus-visible,
+body.dark-mode .site .drag-container .dragzone:focus-visible {
   outline: white calc(var(--i) * 0.6px) solid;
   outline-offset: calc(var(--i) * -0.6px);
 }
@@ -968,14 +968,14 @@ body.dark-mode .site .drag-container .dragzone:focus {
   position: relative;
 }
 .blob-info-section {
-  margin: 3em auto 2em;
+  margin: 3rem auto 2.4rem;
 }
 .blob .blob-title-wrap {
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
   align-items: center;
-  margin: 2em auto 2.8em;
+  margin: 2rem auto 4rem;
   width: max-content;
 }
 .blob .blob-title-wrap .blob-title {
@@ -1000,7 +1000,6 @@ body.dark-mode .site .drag-container .dragzone:focus {
 }
 
 #root .drag-container .colorblock:hover,
-#root .drag-container .colorblock:focus,
 #root .drag-container .colorblock:focus-visible,
 #root .drag-container .colorblock.active {
   z-index: 1300;
@@ -1055,8 +1054,8 @@ body.dark-mode .site .drag-container .dragzone:focus {
 }
 
 .blob.page .drag-container .disable-scroll {
-  width: 2.4rem;
-  height: 2.4rem;
+  width: 2.3rem;
+  height: 2.3rem;
   font-size: 2rem;
   border-radius: 50%;
   padding: 0;
@@ -1226,7 +1225,7 @@ body.dark-mode .site .drag-container .dragzone:focus {
   outline-offset: -3px;
 }
 .drag-container .layer-mover-control-wrap button:hover,
-.drag-container .layer-mover-control-wrap button:focus {
+.drag-container .layer-mover-control-wrap button:focus-visible {
   border: 3px solid var(--color-primary-14);
   outline: 4px solid var(--color-primary-14);
   outline-offset: -3px;
@@ -1410,7 +1409,6 @@ body.dark-mode .site .drag-container .dragzone:focus {
   border-color: red;
 }
 .drag-container .delete-blob:hover,
-.drag-container .delete-blob:focus,
 .drag-container .delete-blob:focus-visible {
   outline: 4px solid red;
   outline-offset: 0;
@@ -1741,14 +1739,12 @@ body.dark-mode .site .drag-container .dragzone:focus {
 }
 #root .blob .accordion-row > button,
 #root .blob .accordion-row > button:hover,
-#root .blob .accordion-row > button:focus,
 #root .blob .accordion-row > button:focus-visible {
   outline: none;
   background-image: none;
   background-color: transparent;
 }
 #root .blob .accordion-row > button:hover svg,
-#root .blob .accordion-row > button:focus svg,
 #root .blob .accordion-row > button:focus-visible svg {
   outline: 2px solid currentColor;
   outline-offset: -4px;
@@ -1796,7 +1792,6 @@ body.dark-mode .site .drag-container .dragzone:focus {
 @media (min-width: 300px) {
   .button-container {
     flex-flow: row wrap;
-    gap: 1.1em;
   }
   .button-container > div:nth-child(odd) {
     margin-top: -0.22rem;
@@ -1804,13 +1799,19 @@ body.dark-mode .site .drag-container .dragzone:focus {
   }
 }
 @media (min-width: 700px) {
+  .accordion-row {
+    gap: calc(var(--gap) * 1.3);
+  }
+  .button-container {
+    gap: 1.3em;
+  }
   .drag-container .layer-mover-control-wrap button {
     padding: 0.1em 0.45em 0.2em;
   }
 }
 @media (min-width: 1000px) {
   .accordion-row {
-    gap: calc(var(--gap) * 1.4);
+    gap: calc(var(--gap) * 1.8);
   }
   .accordion-wrap .button {
     height: 4rem;
@@ -1818,7 +1819,7 @@ body.dark-mode .site .drag-container .dragzone:focus {
     padding: 0.8rem;
   }
   .button-container {
-    gap: 1.8em;
+    gap: 2em;
   }
   .drag-container .drag-slider-single {
     flex: 1 0 calc(28% - var(--gap) * 2);

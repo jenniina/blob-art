@@ -14,13 +14,15 @@ api.interceptors.request.use((config) => {
 // Force logout on 401
 api.interceptors.response.use(
   (response) => response,
-  (error) => {
-    if (error?.response?.status === 401) {
+  (error: unknown) => {
+    if (axios.isAxiosError(error) && error.response?.status === 401) {
       localStorage.removeItem('JokeApptoken')
       localStorage.removeItem('loggedJokeAppUser')
       window.location.href = '?login=true'
     }
-    return Promise.reject(error)
+    return Promise.reject(
+      error instanceof Error ? error : new Error('Request failed')
+    )
   }
 )
 

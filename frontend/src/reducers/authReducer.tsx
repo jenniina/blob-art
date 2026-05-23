@@ -81,12 +81,13 @@ export const refreshUser = (user: IUser) => {
     const loggedUserJSON = window?.localStorage.getItem('loggedJokeAppUser')
     if (!loggedUserJSON) return
 
+    const storedUser = JSON.parse(loggedUserJSON) as StoredUser
+
     await api.get('/auth/ping', {
-      headers: { Authorization: `Bearer ${JSON.parse(loggedUserJSON).token}` },
+      headers: { Authorization: `Bearer ${storedUser.token ?? ''}` },
     })
 
-    const data = JSON.parse(loggedUserJSON) as StoredUser
-    const token = data.token ?? null
+    const token = storedUser.token ?? null
 
     if (token) localStorage.setItem('JokeApptoken', token)
 

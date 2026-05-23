@@ -11,7 +11,7 @@
   background-color: transparent;
   z-index: 99;
 }
-.main-header.transformations {
+.main-header {
   transition-property: top;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 500ms;
@@ -35,12 +35,12 @@
   border: 0;
 }
 .main-header button:hover,
-.main-header button:focus {
+.main-header button:focus-visible {
   outline: none;
 }
 
 .main-header nav:not(.toolbar) button:hover span,
-.main-header nav:not(.toolbar) button:focus span {
+.main-header nav:not(.toolbar) button:focus-visible span {
   opacity: 1;
   -webkit-transform: translateX(-50%) scale(1);
   -ms-transform: translateX(-50%) scale(1);
@@ -129,7 +129,7 @@ button.togglemenu .menupath {
   /*https://mavo.io/demos/svgpath/*/
   stroke-dasharray: 0 116 64 50 44 60 60 1000;
 }
-.transformations button.togglemenu .menupath {
+button.togglemenu .menupath {
   transition-property: stroke-dasharray, stroke-dashoffset;
   transition-timing-function: ease-in-out;
   transition-duration: 600ms;
@@ -137,9 +137,6 @@ button.togglemenu .menupath {
 button.togglemenu[aria-expanded='true'] .menupath {
   stroke-dasharray: 0 115 58 0 58 142 0 222 116 1000;
   stroke-dashoffset: 116;
-}
-.main-header button.search {
-  flex: 1 1 0;
 }
 .main-header button.settings {
   flex: 1 0 0;
@@ -170,8 +167,8 @@ button.togglemenu[aria-expanded='true'] .menupath {
   border-width: 0 0 1px 1px;
   border-radius: 0 0 0 var(--radius-small);
 }
-.transformations .menu-container,
-.transformations .toolbar {
+.menu-container,
+.toolbar {
   transition-property: transform, opacity, top;
   transition-duration: 0.3s;
   transition-timing-function: ease-in-out;
@@ -417,18 +414,18 @@ a.link:visited:not(.active) > *,
   right: 2em;
 }
 .link:hover,
-.link:focus {
+.link:focus-visible {
   text-decoration: none;
 }
 a.link:hover,
-a.link:focus,
+a.link:focus-visible,
 a.link:hover svg,
-a.link:focus span,
+a.link:focus-visible span,
 a.link:visited,
 a.link:visited:not(.active):hover > *,
-a.link:visited:not(.active):focus > *,
+a.link:visited:not(.active):focus-visible > *,
 .main-header button:hover,
-.main-header button:focus {
+.main-header button:focus-visible {
   color: var(--color-primary-16);
 }
 .portfolio > .link.active {
@@ -507,7 +504,7 @@ a.link:visited:not(.active):focus > *,
   padding: 0.5em 0;
 }
 .toolbar .loginregister button.logout:hover,
-.toolbar .loginregister button.logout:focus {
+.toolbar .loginregister button.logout:focus-visible {
   outline: dashed 2px red;
   outline-offset: 6px;
 }
@@ -542,7 +539,7 @@ a.link:visited:not(.active):focus > *,
   transform: translateX(-105%);
   transition: 0.3s transform ease-in-out;
 }
-.skip-link:focus {
+.skip-link:focus-visible {
   width: max-content;
   -webkit-transform: translateX(0%);
   -ms-transform: translateX(0%);
@@ -604,7 +601,7 @@ a.link:visited:not(.active):focus > *,
   .menu-container ul li a svg {
     margin-right: 0.6rem;
   }
-  .transformations .menu-container ul li a svg {
+  .menu-container ul li a svg {
     transition-property: transform, fill;
     transition-duration: 0.3s;
     transition-timing-function: ease-in-out;
@@ -617,10 +614,6 @@ a.link:visited:not(.active):focus > *,
     transform: scale(2.1);
   }
 
-  .main-header button.search svg {
-    margin: 0.2em 0 -0.2em;
-  }
-  .main-header button.search svg,
   .main-header button.settings svg,
   .main-header button.togglemenu svg {
     margin-right: 0.5rem;
@@ -632,14 +625,12 @@ a.link:visited:not(.active):focus > *,
     align-self: center;
   }
 
-  .transformations.main-header button.search svg,
-  .transformations.main-header button.settings svg,
-  .transformations.main-header button.togglemenu svg {
+  .main-header button.settings svg,
+  .main-header button.togglemenu svg {
     transition-property: transform, fill;
     transition-duration: 0.3s;
     transition-timing-function: ease-in-out;
   }
-  .main-header button.search:hover svg,
   .main-header button.settings:not(:disabled):hover svg,
   .main-header button.togglemenu:hover svg {
     -webkit-transform: scale(1.8);
@@ -651,7 +642,6 @@ a.link:visited:not(.active):focus > *,
 } /*END media*/
 
 @media (max-width: 400px) {
-  .main-header button.search svg,
   .main-header button.settings svg,
   .main-header button.menutoggle svg {
     margin-left: 0;
@@ -738,7 +728,6 @@ a.link:visited:not(.active):focus > *,
     height: 100%;
   }
   .menu-container ul li a,
-  .main-header button.search,
   .main-header button.settings,
   .main-header button.togglemenu {
     padding: 0 0.8vw 0.12em;
@@ -766,7 +755,6 @@ a.link:visited:not(.active):focus > *,
     right: 0em;
   }
   .menu-container ul li a svg,
-  .main-header button.search svg,
   .main-header button.settings svg {
     position: absolute;
     min-width: max-content;
@@ -786,8 +774,6 @@ a.link:visited:not(.active):focus > *,
   }
   .menu-container ul li a:hover svg,
   .menu-container ul li a:focus-visible svg,
-  .main-header button.search:hover svg,
-  .main-header button.search:focus-visible svg,
   .main-header button.settings:not(:disabled):hover svg,
   .main-header button.settings:not(:disabled):focus-visible svg {
     opacity: 1;
@@ -798,7 +784,6 @@ a.link:visited:not(.active):focus > *,
     transform: translateX(-50%) scale(1.4);
   }
   .menu-container ul li a span,
-  .main-header button.search span,
   .main-header button.settings span {
     position: relative;
     min-width: max-content;
@@ -813,21 +798,17 @@ a.link:visited:not(.active):focus > *,
     opacity: 0;
   }
   header .menu-container ul li a span,
-  header.main-header button.search span,
   header.main-header button.settings span {
     background-image: linear-gradient(180deg, transparent 50%, var(--color-primary-3) 95%);
     background-size: 100% 200%;
     background-position: 50% 3%;
   }
   header.light .menu-container ul li a span,
-  header.main-header.light button.search span,
   header.main-header.light button.settings span {
     background-image: linear-gradient(180deg, transparent 50%, var(--color-primary-4) 95%);
   }
   header .menu-container ul li a:hover span,
   header .menu-container ul li a:focus-visible span,
-  header.main-header button.search:hover span,
-  header.main-header button.search:focus-visible span,
   header.main-header button.settings:not(:disabled):hover span,
   header.main-header button.settings:not(:disabled):focus-visible span {
     background-position: 50% 98%;
@@ -835,8 +816,6 @@ a.link:visited:not(.active):focus > *,
   }
   .menu-container ul li a:hover span,
   .menu-container ul li a:focus-visible span,
-  .main-header button.search:hover span,
-  .main-header button.search:focus-visible span,
   .main-header button.settings:not(:disabled):hover span,
   .main-header button.settings:not(:disabled):focus-visible span {
     position: relative;
@@ -853,17 +832,15 @@ a.link:visited:not(.active):focus > *,
     transform-origin: top;
     opacity: 1;
   }
-  .transformations .menu-container ul li a svg,
-  .transformations.main-header button.search svg,
-  .transformations.main-header button.settings svg {
+  .menu-container ul li a svg,
+  .main-header button.settings svg {
     transition-property: transform, opacity, color, fill;
     transition-duration: 0.3s;
     transition-timing-function: ease-in-out;
   }
 
-  .transformations .menu-container ul li a span,
-  .transformations.main-header button.search span,
-  .transformations.main-header button.settings span {
+  .menu-container ul li a span,
+  .main-header button.settings span {
     transition-property: transform, opacity, color, background-color, background-position;
     transition-duration: 0.3s;
     transition-delay: 0s;
@@ -879,15 +856,10 @@ a.link:visited:not(.active):focus > *,
     padding: 0.3em 0.6rem 0.12em;
     align-items: flex-end;
   }
-  .main-header button.search,
   .main-header button.settings {
     padding: 0 1.2rem 0.12em;
     align-items: flex-end;
     flex: 0 0 max-content;
-  }
-  .main-header button.store,
-  .main-header button.cart {
-    padding: 0.3em 0rem 0.12em 0.6rem;
   }
 } /*END media*/
 
@@ -915,12 +887,12 @@ button.dlt-btn {
   font-size: calc(var(--size) * 0.5);
   margin-top: -0.8em;
 }
-.transformations button.dlt-btn {
+button.dlt-btn {
   transition-property: transform;
   transition-duration: 0.4s;
   transition-timing-function: ease-in-out;
 }
-button.dlt-btn:focus {
+button.dlt-btn:focus-visible {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   -o-box-shadow: none;
@@ -929,7 +901,7 @@ button.dlt-btn:focus {
   outline: none;
 }
 .dlt-btn:hover,
-.dlt-btn:focus {
+.dlt-btn:focus-visible {
   -webkit-transform: scale(1.2);
   -ms-transform: scale(1.2);
   -o-transform: scale(1.2);
@@ -1027,7 +999,7 @@ button.dlt-btn:focus {
 .light .dlt-btn:hover .dlt-btn-inner-left::after {
   border: calc(var(--size) * 0.07) solid var(--color-primary-20);
 }
-.dlt-btn:focus .dlt-btn-inner-left::after {
+.dlt-btn:focus-visible .dlt-btn-inner-left::after {
   outline: 1px solid currentColor;
   outline-offset: 1px;
 }
@@ -1065,10 +1037,6 @@ button.dlt-btn:focus {
   }
 } /*END media*/
 
-.main-header button.search {
-  display: none;
-}
-
 button.settings:disabled:hover {
   cursor: default;
   color: var(--color-primary-20);
@@ -1078,9 +1046,4 @@ button.settings:disabled:hover svg {
   border-radius: 50%;
   outline: 1px solid currentColor;
   outline-offset: 3px;
-}
-button.store:disabled,
-button.cart:disabled {
-  background: transparent;
-  border: 0;
 }

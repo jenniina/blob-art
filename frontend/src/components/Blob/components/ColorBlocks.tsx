@@ -4,6 +4,7 @@ import { useLanguageContext } from '../../../contexts/LanguageContext'
 import { TranslationKey } from '../../../i18n/translations'
 import Icon from '../../Icon/Icon'
 import { CanvasSize } from './DragContainer'
+import { breakpoint } from '../../../types'
 
 interface ColorBlockProps {
   d: number
@@ -11,10 +12,6 @@ interface ColorBlockProps {
   colorBlockProps: RefObject<HTMLButtonElement>[][]
   colorPairs: ColorPair[][]
   map: Map<RefObject<HTMLButtonElement>, string>[]
-  getRefName: (
-    refNameMapping: Map<RefObject<HTMLButtonElement>, string>,
-    ref: RefObject<HTMLButtonElement>
-  ) => string | undefined
   setSelectedColor: (value: string) => void
   selectedColor: string
   mode: Modes
@@ -27,7 +24,6 @@ const ColorBlocks: FC<ColorBlockProps> = ({
   colorsVisible,
   colorBlockProps,
   colorPairs,
-  getRefName,
   map,
   setSelectedColor,
   selectedColor,
@@ -38,6 +34,7 @@ const ColorBlocks: FC<ColorBlockProps> = ({
   const { t } = useLanguageContext()
 
   const colorLength = colorBlockProps[d].length
+  const refNames = Array.from(map[d].values())
 
   const handleClick = (color: string) => {
     if (selectedColor === color) {
@@ -51,7 +48,7 @@ const ColorBlocks: FC<ColorBlockProps> = ({
   return (
     <>
       {colorBlockProps[d].map((colorBlock, index) => {
-        const refName = getRefName(map[d], colorBlock)
+        const refName = refNames[index]
         const colorNameKey = refName?.replace(/^color/, '') as
           | TranslationKey
           | undefined
@@ -84,7 +81,7 @@ const ColorBlocks: FC<ColorBlockProps> = ({
                     ? '2rem'
                     : '1.85rem',
               width:
-                effectiveCanvasSize && effectiveCanvasSize.width > 700
+                effectiveCanvasSize && effectiveCanvasSize.width > breakpoint
                   ? '2rem'
                   : '1.5rem',
               background: color,
@@ -95,7 +92,7 @@ const ColorBlocks: FC<ColorBlockProps> = ({
               }`,
               ['--full-amount' as string]: colorLength,
               ['--alert-distance' as string]:
-                effectiveCanvasSize && effectiveCanvasSize.width > 700
+                effectiveCanvasSize && effectiveCanvasSize.width > breakpoint
                   ? '2.1rem'
                   : '1.55rem',
             }}
@@ -118,7 +115,7 @@ const ColorBlocks: FC<ColorBlockProps> = ({
                 left:
                   isLeftSide &&
                   effectiveCanvasSize &&
-                  effectiveCanvasSize.width > 700
+                  effectiveCanvasSize.width > breakpoint
                     ? '2.1rem'
                     : isLeftSide
                       ? '1.7rem'
@@ -126,7 +123,7 @@ const ColorBlocks: FC<ColorBlockProps> = ({
                 right:
                   !isLeftSide &&
                   effectiveCanvasSize &&
-                  effectiveCanvasSize.width > 700
+                  effectiveCanvasSize.width > breakpoint
                     ? '2.1rem'
                     : !isLeftSide
                       ? '1.7rem'
