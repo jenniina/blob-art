@@ -46,7 +46,6 @@ import { getErrorMessage } from '../../../utils'
 import Icon from '../../Icon/Icon'
 import useLocalStorage from '../../../hooks/useStorage'
 import { useTheme } from '../../../hooks/useTheme'
-import BlobArtIcon from '../../Icon/BlobArtIcon'
 
 const DragLayers = lazy(() => import('./DragLayers'))
 
@@ -93,13 +92,19 @@ const defaultLayerAmount = 3
 const minCanvasWidth = 140
 const minCanvasHeight = 460
 const defaultSingleCanvasVariant = 2
+const defaultCanvasBounds: CanvasBounds = {
+  minWidth: minCanvasWidth,
+  maxWidth: minCanvasWidth,
+  minHeight: minCanvasHeight,
+  maxHeight: minCanvasHeight,
+}
 
-export type CanvasSize = {
+export interface CanvasSize {
   width: number
   height: number
 }
 
-type CanvasBounds = {
+interface CanvasBounds {
   minWidth: number
   maxWidth: number
   minHeight: number
@@ -193,6 +198,8 @@ export default function DragContainer({
       (windowHeight || 0) - canvasViewportPadding * 15
     ),
   })
+  const [canvasBounds, setCanvasBounds] =
+    useState<CanvasBounds>(defaultCanvasBounds)
   const [canvasSize, setCanvasSize, removeCanvasSize] =
     useLocalStorage<CanvasSize | null>(`BlobCanvasSize${d.toString()}`, null)
   const [canvasOffsetX, setCanvasOffsetX, removeCanvasOffsetX] =
@@ -359,16 +366,6 @@ export default function DragContainer({
       ]),
     ]
   }, [refNameMappingLeft, refNameMappingRight])
-
-  const getRefName = useCallback(
-    (
-      refNameMapping: Map<RefObject<HTMLButtonElement>, string>,
-      ref: RefObject<HTMLButtonElement>
-    ): string | undefined => {
-      return refNameMapping.get(ref)
-    },
-    []
-  )
 
   const colorBlockPropsLeft = useMemo(() => {
     return [
@@ -571,8 +568,8 @@ export default function DragContainer({
     }
   }, [isClient, windowObj])
 
-  const loadDraggables = useCallback(() => {
-    return new Promise((resolve) => {
+  const loadDraggables = useCallback((): Promise<Draggable[] | null> => {
+    return new Promise<Draggable[] | null>((resolve) => {
       setTimeout(() => {
         if (typeof window === 'undefined') {
           resolve(null)
@@ -586,9 +583,7 @@ export default function DragContainer({
         ) {
           resolve(null)
         } else {
-          const draggables: Draggable[] = JSON.parse(
-            draggablesJSON
-          ) as unknown as Draggable[]
+          const draggables = JSON.parse(draggablesJSON) as Draggable[]
           // Ensure each draggable has a layer property
           resolve(
             draggables.map((draggable) => ({
@@ -599,7 +594,7 @@ export default function DragContainer({
         }
       }, 300)
     })
-  }, [localStorageDraggables]) as () => Promise<Draggable[] | null>
+  }, [localStorageDraggables])
 
   function loadLayerAmount(): Promise<number | null> {
     // First check the local storage value, then check if draggables[d] has blobs, finally return the default value if both are null
@@ -684,7 +679,7 @@ export default function DragContainer({
     )
     const fallbackHeight = Math.max(
       minCanvasHeight,
-      (windowHeight || windowObj?.innerHeight || minCanvasHeight) - 112
+      (windowHeight ?? windowObj?.innerHeight ?? minCanvasHeight) - 112
     )
 
     return {
@@ -713,8 +708,7 @@ export default function DragContainer({
 
     setDefaultCanvasSize((prev) => {
       if (
-        prev &&
-        prev.width === measuredSize.width &&
+        prev?.width === measuredSize.width &&
         prev.height === measuredSize.height
       ) {
         return prev
@@ -732,9 +726,9 @@ export default function DragContainer({
   const getCanvasOffsetBounds = useCallback(() => {
     const anchorLeft = dragWrapOutest.current?.getBoundingClientRect().left ?? 0
     const viewportWidth =
-      getDocumentClientWidth() ||
-      windowWidth ||
-      windowObj?.innerWidth ||
+      getDocumentClientWidth() ??
+      windowWidth ??
+      windowObj?.innerWidth ??
       minCanvasWidth
 
     return {
@@ -744,7 +738,7 @@ export default function DragContainer({
         viewportWidth - anchorLeft - minCanvasWidth - canvasViewportPadding
       ),
     }
-  }, [dragWrapOutest, windowObj, windowWidth])
+  }, [dragWrapOutest, windowObj, windowWidth, canvasViewportPadding])
 
   const clampCanvasOffsetX = useCallback(
     (offsetX: number) => {
@@ -758,7 +752,7 @@ export default function DragContainer({
   const getViewportHeightLimit = useCallback(
     (top: number) => {
       const viewportHeight =
-        windowHeight || windowObj?.innerHeight || minCanvasHeight
+        windowHeight ?? windowObj?.innerHeight ?? minCanvasHeight
       const maxHeight = Math.max(
         viewportHeight - Math.max(top, 0) - canvasViewportPadding,
         120
@@ -770,7 +764,7 @@ export default function DragContainer({
         maxHeight: maxHeightPlus,
       }
     },
-    [windowHeight, windowObj]
+    [windowHeight, windowObj, canvasViewportPadding]
   )
 
   const applyCanvasResize = useCallback(
@@ -794,9 +788,9 @@ export default function DragContainer({
       baseWidth: number
     }) => {
       const viewportWidth =
-        getDocumentClientWidth() ||
-        windowWidth ||
-        windowObj?.innerWidth ||
+        getDocumentClientWidth() ??
+        windowWidth ??
+        windowObj?.innerWidth ??
         minCanvasWidth
       const rightResizeMaxWidth = Math.max(
         viewportWidth - Math.max(left, 0) - canvasViewportPadding,
@@ -834,13 +828,19 @@ export default function DragContainer({
         offsetX: nextOffsetX,
       }
     },
-    [clampCanvasOffsetX, getViewportHeightLimit, windowObj, windowWidth]
+    [
+      clampCanvasOffsetX,
+      getViewportHeightLimit,
+      windowObj,
+      windowWidth,
+      canvasViewportPadding,
+    ]
   )
 
   const getCanvasBounds = useCallback((): CanvasBounds => {
-    const viewportWidth = windowWidth || windowObj?.innerWidth || minCanvasWidth
+    const viewportWidth = windowWidth ?? windowObj?.innerWidth ?? minCanvasWidth
     const viewportHeight =
-      windowHeight || windowObj?.innerHeight || minCanvasHeight
+      windowHeight ?? windowObj?.innerHeight ?? minCanvasHeight
     const canvasRect =
       dragWrapOuter.current?.getBoundingClientRect() ??
       dragWrap.current?.getBoundingClientRect()
@@ -857,7 +857,14 @@ export default function DragContainer({
       minHeight: Math.min(minCanvasHeight, maxHeight),
       maxHeight,
     }
-  }, [dragWrapOuter, dragWrap, windowHeight, windowObj, windowWidth])
+  }, [
+    dragWrapOuter,
+    dragWrap,
+    windowHeight,
+    windowObj,
+    windowWidth,
+    canvasViewportPadding,
+  ])
 
   const clampCanvasSize = useCallback(
     (size: CanvasSize): CanvasSize => {
@@ -913,6 +920,25 @@ export default function DragContainer({
   ])
 
   const effectiveCanvasSize = canvasSize ?? defaultCanvasSize
+
+  useEffect(() => {
+    const updateCanvasBounds = () => {
+      setCanvasBounds(getCanvasBounds())
+    }
+
+    if (windowObj) {
+      windowObj.requestAnimationFrame(updateCanvasBounds)
+      return
+    }
+
+    updateCanvasBounds()
+  }, [
+    getCanvasBounds,
+    windowObj,
+    canvasOffsetX,
+    effectiveCanvasSize.height,
+    effectiveCanvasSize.width,
+  ])
 
   const sortSavedBlobsByNewest = useCallback((blobs: SavedBlobs[]) => {
     const getObjectIdTime = (id?: string) => {
@@ -1336,7 +1362,9 @@ export default function DragContainer({
               setLayerAmount(loadedLayerAmount)
             } else if (loadedDraggables && loadedDraggables.length > 0) {
               setLayerAmount(
-                Math.max(...loadedDraggables.map((d) => d.layer)) + 1
+                Math.max(
+                  ...loadedDraggables.map((draggable) => draggable.layer)
+                ) + 1
               )
             }
             if (loadedDraggables && loadedDraggables.length > 0) {
@@ -1960,7 +1988,7 @@ export default function DragContainer({
     return () => {
       document.removeEventListener('keydown', handleUndoRedo)
     }
-  }, [canRedo, canUndo, isClient, redo, undo])
+  }, [canRedo, canUndo, isClient, redo, undo, d])
 
   useEffect(() => {
     const dragWrapCurrent = dragWrapOuter.current
@@ -2001,43 +2029,25 @@ export default function DragContainer({
   const backgroundColorStyle = {
     backgroundColor: `hsl(var(--hue${d}), calc(var(--saturation${d}) * 1%), calc(var(--lightness${d}) * 1%))`,
   }
-  const [dragWrapOuterHue, setDragWrapOuterHue] = useState<CSSProperties>(
-    sliderHueInput.current
-      ? {
-          [`--hue${d}`]: `${sliderHueInput.current.value}`,
-        }
-      : {
-          [`--hue${d}`]: `${sliderHueVal}`,
-        }
-  )
+  const [dragWrapOuterHue, setDragWrapOuterHue] = useState<CSSProperties>({
+    [`--hue${d}`]: `${sliderHueVal}`,
+  })
   const [dragWrapOuterSaturation, setDragWrapOuterSaturation] =
-    useState<CSSProperties>(
-      sliderSaturationInput.current
-        ? {
-            [`--saturation${d}`]: `${sliderSaturationInput.current.value}`,
-          }
-        : {
-            [`--saturation${d}`]: `${sliderSatVal}`,
-          }
-    )
+    useState<CSSProperties>({
+      [`--saturation${d}`]: `${sliderSatVal}`,
+    })
   const [dragWrapOuterLightness, setDragWrapOuterLightness] =
-    useState<CSSProperties>(
-      sliderLightnessInput.current
-        ? {
-            [`--lightness${d}`]: `${sliderLightnessInput.current.value}`,
-          }
-        : {
-            [`--lightness${d}`]: `${sliderLightVal}`,
-          }
-    )
+    useState<CSSProperties>({
+      [`--lightness${d}`]: `${sliderLightVal}`,
+    })
 
-  function sliderHue() {
+  function sliderHue(nextHue: string) {
     if (dragWrapOuter.current) {
-      setDragWrapOuterHue({ [`--hue${d}`]: `${sliderHueVal}` })
-      const updatedBackgroundColor: string[][] = JSON.parse(
-        JSON.stringify(backgroundColor)
-      ) as unknown as string[][]
-      updatedBackgroundColor[d][0] = sliderHueVal
+      setDragWrapOuterHue({ [`--hue${d}`]: `${nextHue}` })
+      const updatedBackgroundColor = backgroundColor.map((colors) => [
+        ...colors,
+      ])
+      updatedBackgroundColor[d][0] = nextHue
       void dispatch({
         type: 'setBackgroundColor',
         payload: { d, backgroundColor: updatedBackgroundColor[d] },
@@ -2046,15 +2056,15 @@ export default function DragContainer({
     }
   }
 
-  function sliderSaturation() {
+  function sliderSaturation(nextSaturation: string) {
     if (dragWrapOuter.current) {
       setDragWrapOuterSaturation({
-        [`--saturation${d}`]: `${sliderSatVal}`,
+        [`--saturation${d}`]: `${nextSaturation}`,
       })
-      const updatedBackgroundColor: string[][] = JSON.parse(
-        JSON.stringify(backgroundColor)
-      ) as unknown as string[][]
-      updatedBackgroundColor[d][1] = sliderSatVal
+      const updatedBackgroundColor = backgroundColor.map((colors) => [
+        ...colors,
+      ])
+      updatedBackgroundColor[d][1] = nextSaturation
       void dispatch({
         type: 'setBackgroundColor',
         payload: { d, backgroundColor: updatedBackgroundColor[d] },
@@ -2063,16 +2073,16 @@ export default function DragContainer({
     }
   }
 
-  function sliderLightness() {
+  function sliderLightness(nextLightness: string) {
     if (dragWrapOuter.current) {
       setDragWrapOuterLightness({
-        [`--lightness${d}`]: `${sliderLightVal}`,
+        [`--lightness${d}`]: `${nextLightness}`,
       })
 
-      const updatedBackgroundColor: string[][] = JSON.parse(
-        JSON.stringify(backgroundColor)
-      ) as unknown as string[][]
-      updatedBackgroundColor[d][2] = sliderLightVal
+      const updatedBackgroundColor = backgroundColor.map((colors) => [
+        ...colors,
+      ])
+      updatedBackgroundColor[d][2] = nextLightness
       void dispatch({
         type: 'setBackgroundColor',
         payload: { d, backgroundColor: updatedBackgroundColor[d] },
@@ -2080,32 +2090,13 @@ export default function DragContainer({
       saveBackground(updatedBackgroundColor[d])
     }
   }
-
-  //To force the sliders to update
-  useEffect(() => {
-    if (sliderLightnessInput.current)
-      setSliderLightVal(sliderLightnessInput.current.value)
-  }, [sliderLightnessInput?.current?.value])
-
-  useEffect(() => {
-    if (sliderSaturationInput.current)
-      setSliderSatVal(sliderSaturationInput.current.value)
-  }, [sliderSaturationInput?.current?.value])
-
-  useEffect(() => {
-    if (sliderHueInput.current) setSliderHueVal(sliderHueInput.current.value)
-  }, [sliderHueInput?.current?.value])
 
   function sliderLightnessReset() {
     setDragWrapOuterLightness({
       [`--lightness${d}`]: `${defaultLightness}`,
     })
-    if (sliderLightnessInput.current)
-      sliderLightnessInput.current.value = defaultLightness
     setSliderLightVal(defaultLightness)
-    const updatedBackgroundColor: string[][] = JSON.parse(
-      JSON.stringify(backgroundColor)
-    ) as unknown as string[][]
+    const updatedBackgroundColor = backgroundColor.map((colors) => [...colors])
     updatedBackgroundColor[d][2] = defaultLightness
     saveBackground(updatedBackgroundColor[d])
     void dispatch({
@@ -2118,12 +2109,8 @@ export default function DragContainer({
     setDragWrapOuterSaturation({
       [`--saturation${d}`]: `${defaultSaturation}`,
     })
-    if (sliderSaturationInput.current)
-      sliderSaturationInput.current.value = defaultSaturation
     setSliderSatVal(defaultSaturation)
-    const updatedBackgroundColor: string[][] = JSON.parse(
-      JSON.stringify(backgroundColor)
-    ) as unknown as string[][]
+    const updatedBackgroundColor = backgroundColor.map((colors) => [...colors])
     updatedBackgroundColor[d][1] = defaultSaturation
     saveBackground(updatedBackgroundColor[d])
     void dispatch({
@@ -2134,11 +2121,8 @@ export default function DragContainer({
 
   function sliderHueReset() {
     setDragWrapOuterHue({ [`--hue${d}`]: `${defaultHue}` })
-    if (sliderHueInput.current) sliderHueInput.current.value = defaultHue
     setSliderHueVal(defaultHue)
-    const updatedBackgroundColor: string[][] = JSON.parse(
-      JSON.stringify(backgroundColor)
-    ) as unknown as string[][]
+    const updatedBackgroundColor = backgroundColor.map((colors) => [...colors])
     updatedBackgroundColor[d][0] = defaultHue
     saveBackground(updatedBackgroundColor[d])
     void dispatch({
@@ -2186,11 +2170,11 @@ export default function DragContainer({
         canvasWidth: dragWrap.current.offsetWidth,
         canvasHeight: dragWrap.current.offsetHeight,
       }
-      const placements: Array<{
+      const placements: {
         element: HTMLElement
         x: number
         y: number
-      }> = []
+      }[] = []
 
       const y_pos = [
         0.6, 8.2, 15.8, 23.4, 31, 38.6, 46.2, 53.8, 61.4, 69, 76.6, 84.2, 91.8,
@@ -2368,7 +2352,7 @@ export default function DragContainer({
       setCanvasSize(nextCanvas.size)
       setCanvasOffsetX(nextCanvas.offsetX)
     },
-    [applyCanvasResize]
+    [applyCanvasResize, setCanvasOffsetX, setCanvasSize]
   )
 
   const handleCanvasResizeKeyDown = useCallback(
@@ -2410,9 +2394,9 @@ export default function DragContainer({
 
         if (widthDelta !== 0) {
           const viewportWidth =
-            getDocumentClientWidth() ||
-            windowWidth ||
-            windowObj?.innerWidth ||
+            getDocumentClientWidth() ??
+            windowWidth ??
+            windowObj?.innerWidth ??
             minCanvasWidth
           const widthMax =
             horizontalDirection === -1
@@ -2454,25 +2438,34 @@ export default function DragContainer({
         })
       },
     [
-      applyCanvasResize,
       canvasOffsetX,
       dragWrapOutest,
       dragWrap,
       getCurrentCanvasSize,
       getViewportHeightLimit,
+      windowObj,
+      windowWidth,
+      clampCanvasOffsetX,
+      canvasViewportPadding,
+      dragWrapOuter,
+      setCanvasOffsetX,
+      setCanvasSize,
     ]
   )
 
-  const stopCanvasResize = useCallback(() => {
-    if (!isClient || !windowObj) return
+  const stopCanvasResize = useCallback(
+    function stopCanvasResize() {
+      if (!isClient || !windowObj) return
 
-    resizeStateRef.current = null
-    document.body.style.userSelect = ''
-    document.body.style.cursor = ''
-    windowObj.removeEventListener('pointermove', handleCanvasResize)
-    windowObj.removeEventListener('pointerup', stopCanvasResize)
-    windowObj.removeEventListener('pointercancel', stopCanvasResize)
-  }, [handleCanvasResize, isClient, windowObj])
+      resizeStateRef.current = null
+      document.body.style.userSelect = ''
+      document.body.style.cursor = ''
+      windowObj.removeEventListener('pointermove', handleCanvasResize)
+      windowObj.removeEventListener('pointerup', stopCanvasResize)
+      windowObj.removeEventListener('pointercancel', stopCanvasResize)
+    },
+    [handleCanvasResize, isClient, windowObj]
+  )
 
   const startCanvasResize = useCallback(
     (horizontalDirection: 1 | -1, cursor: 'nwse-resize' | 'nesw-resize') =>
@@ -2513,6 +2506,7 @@ export default function DragContainer({
       isClient,
       stopCanvasResize,
       windowObj,
+      setCanvasSize,
     ]
   )
 
@@ -2555,7 +2549,16 @@ export default function DragContainer({
   useEffect(() => {
     if (!markerEnabled || !usingKeyboard) return
 
-    syncFocusedBlobFromActiveElement()
+    if (windowObj) {
+      windowObj.requestAnimationFrame(() => {
+        syncFocusedBlobFromActiveElement()
+      })
+      return
+    }
+
+    setTimeout(() => {
+      syncFocusedBlobFromActiveElement()
+    }, 0)
   }, [
     markerEnabled,
     usingKeyboard,
@@ -2565,6 +2568,7 @@ export default function DragContainer({
     canvasOffsetX,
     effectiveCanvasSize.width,
     effectiveCanvasSize.height,
+    windowObj,
   ])
 
   useEffect(() => {
@@ -2577,7 +2581,9 @@ export default function DragContainer({
       return
     }
 
-    syncFocusedBlobFromActiveElement()
+    setTimeout(() => {
+      syncFocusedBlobFromActiveElement()
+    }, 0)
   }, [
     draggablesD,
     activeLayer,
@@ -2658,7 +2664,7 @@ export default function DragContainer({
 
       const svgFilter = artVariant === 0 ? 0 : 1
 
-      const dataUrl = (await domtoimage.default.toPng(dragWrap.current, {
+      const dataUrl = await domtoimage.default.toPng(dragWrap.current, {
         scale: 2,
         useCORS: true,
         allowTaint: false,
@@ -2677,7 +2683,7 @@ export default function DragContainer({
             clonedNode.appendChild(clonedSvg)
           }
         },
-      } as DomToImageOptions)) as unknown as string
+      })
 
       if (dataUrl) {
         const link = document?.createElement('a')
@@ -2815,16 +2821,11 @@ export default function DragContainer({
     }, 300)
   }
 
-  const [deleteId, setDeleteId] = useState<string>('')
   const [mode, setMode] = useState<Modes>('none')
 
   const toggleMode = (selectedMode: Modes) => {
     setMode((prevMode) => {
-      const newMode = prevMode === selectedMode ? 'none' : selectedMode
-      if (newMode !== selectedMode) {
-        setDeleteId('')
-      }
-      return newMode
+      return prevMode === selectedMode ? 'none' : selectedMode
     })
   }
 
@@ -2862,7 +2863,6 @@ export default function DragContainer({
 
       if (mode !== 'none') {
         setMode('none')
-        setDeleteId('')
       }
 
       activeElement.blur()
@@ -2904,19 +2904,12 @@ export default function DragContainer({
 
   //Remove blob
   function removeBlob(draggable: Draggable) {
-    setDeleteId(draggable.id)
+    void dispatch({
+      type: 'removeDraggable',
+      payload: { d, id: draggable.id },
+    })
     setSelectedvalue0(`${t('SelectedBlobNone')}`)
   }
-
-  useEffect(() => {
-    if (deleteId) {
-      void dispatch({
-        type: 'removeDraggable',
-        payload: { d: d, id: deleteId },
-      })
-      setDeleteId('')
-    }
-  }, [deleteId, d, dispatch])
 
   const pagination = (
     dKey: string,
@@ -3006,8 +2999,6 @@ export default function DragContainer({
   //     dragContainer.scrollIntoView({ behavior: 'smooth', block: 'start' })
   //   }
   // }
-
-  const canvasBounds = getCanvasBounds()
 
   return (
     <>
@@ -3415,7 +3406,6 @@ export default function DragContainer({
 
               <ColorBlocks
                 d={d}
-                getRefName={getRefName}
                 map={refNameMappingCombo}
                 colorBlockProps={colorBlockPropsCombo}
                 colorPairs={colorPairsCombo}
@@ -3511,7 +3501,6 @@ export default function DragContainer({
                         items={draggables[d] ?? []}
                         getPosition={getPosition}
                         removeBlob={removeBlob}
-                        dragWrap={dragWrap}
                         setSelectedvalue0={setSelectedvalue0}
                         colorIndex={colorIndex}
                         setColorIndex={setColorIndex}
@@ -3753,12 +3742,10 @@ export default function DragContainer({
                       </label>
                     </div>
                     <button
-                      disabled={
-                        (user && user.name === 'temp') || loading ? true : false
-                      }
+                      disabled={user?.name === 'temp' || loading ? true : false}
                       type="submit"
                     >
-                      {user && user.name === 'temp'
+                      {user?.name === 'temp'
                         ? t('TempUserCannotSave')
                         : t('Save')}
                     </button>
@@ -3813,9 +3800,7 @@ export default function DragContainer({
                                   </button>
                                   <button
                                     disabled={
-                                      user && user.name === 'temp'
-                                        ? true
-                                        : false
+                                      user?.name === 'temp' ? true : false
                                     }
                                     onClick={() =>
                                       void deleteBlobsVersionFromServer(
@@ -3869,9 +3854,7 @@ export default function DragContainer({
                                       </div>
                                       <button
                                         disabled={
-                                          user && user.name === 'temp'
-                                            ? true
-                                            : false
+                                          user?.name === 'temp' ? true : false
                                         }
                                         onClick={() => {
                                           if (versionName !== newName) {

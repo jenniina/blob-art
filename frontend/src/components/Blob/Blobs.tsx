@@ -1,10 +1,9 @@
 import { createRef, FC, useState, useMemo } from 'react'
-import { RefObject } from '../../types'
 import DragContainer from './components/DragContainer'
 
 const Blobs: FC = () => {
   const containerRef = useMemo(
-    () => createRef<HTMLDivElement>() as RefObject<HTMLDivElement>,
+    () => createRef<HTMLDivElement>(),
     []
   )
 

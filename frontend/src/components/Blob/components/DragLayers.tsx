@@ -51,7 +51,6 @@ interface DragLayerProps {
   variant: number
   items: Draggable[]
   getPosition: (target: HTMLElement) => void
-  dragWrap: RefObject<HTMLDivElement>
   setSelectedvalue0: DispatchReact<SetStateAction<string | null>>
   colorPairs: ColorPair[][]
   removeBlob: (draggable: Draggable) => void
@@ -97,7 +96,6 @@ const DragLayers = ({
   variant,
   items,
   getPosition,
-  dragWrap,
   setSelectedvalue0,
   colorPairs,
   removeBlob,
@@ -479,13 +477,13 @@ const DragLayers = ({
       setColorIndex,
       changeBlobLayer,
       removeBlob,
-      t,
       colorPairs,
       colorswitch,
       addRandomDraggable,
       makeBlob,
       highestZIndex,
       onEscapeKey,
+      setMarkerEnabled,
     ]
   )
 
@@ -619,10 +617,10 @@ const DragLayers = ({
       const { x, y } = getEventPosition(e)
       const computedStyle = windowObj?.getComputedStyle(target)
       const originLeft = Number.parseFloat(
-        target.style.left || computedStyle?.left || '0'
+        target.style.left ?? computedStyle?.left ?? '0'
       )
       const originTop = Number.parseFloat(
-        target.style.top || computedStyle?.top || '0'
+        target.style.top ?? computedStyle?.top ?? '0'
       )
 
       dragStateRef.current.isDragging = true

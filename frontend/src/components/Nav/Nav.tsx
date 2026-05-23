@@ -19,22 +19,19 @@ import {
   ReducerProps,
   breakpoint,
   breakpointSmall,
-  ELanguages,
   ELanguagesLong,
+  ELanguages,
 } from '../../types'
-import { TranslationKey } from '../../i18n/translations'
 import { useOutsideClick } from '../../hooks/useOutsideClick'
 import { useSelector } from 'react-redux'
 import { useAppDispatch } from '../../hooks/useAppDispatch'
-import { logout, logoutAllDevices } from '../../reducers/authReducer'
 import FormLogin from '../Login/Login'
 import Register from '../Register/Register'
 import { notify } from '../../reducers/notificationReducer'
 import { createUser } from '../../reducers/usersReducer'
-import { Select, SelectOption } from '../Select/Select'
+import { Select } from '../Select/Select'
 import PasswordReset from '../PasswordReset/PasswordReset'
 import Accordion from '../Accordion/Accordion'
-import useCart from '../../hooks/useCart'
 import { options } from '../../utils'
 import { useLanguageContext } from '../../contexts/LanguageContext'
 import { getErrorMessage } from '../../utils'
@@ -48,14 +45,6 @@ export interface Link {
   label: string
   href: string
   name: string
-}
-
-interface LinkComponentProps {
-  windowWidth: number
-  breakpointSmall: number
-  lightTheme: boolean
-  t: (key: TranslationKey) => string
-  styles: CSSModuleClasses
 }
 
 interface SkipLinkProps {
@@ -86,15 +75,13 @@ const Nav = () => {
   const isClient = useIsClient()
   const windowObj = useWindow()
 
-  const { cart } = useCart()
-
   const { t, language, setLanguage } = useLanguageContext()
 
   const clickOutsideRef = useRef<HTMLDivElement>(null)
 
   // Logo dropdown
   const logoRef = useRef<HTMLDivElement>(null)
-  const [logoOpen, setLogoOpen] = useState<boolean>(false)
+  const [, setLogoOpen] = useState<boolean>(false)
 
   const closeLogoMenu = useCallback(() => {
     setLogoOpen(false)
@@ -143,22 +130,19 @@ const Nav = () => {
     [toolbar, mainMenu]
   )
 
-  const getAuthQueryForm = useCallback(
-    (search: string): Form => {
-      const params = new URLSearchParams(search)
+  const getAuthQueryForm = useCallback((search: string): Form => {
+    const params = new URLSearchParams(search)
 
-      if (params.get('login') === 'true') {
-        return 'login'
-      }
+    if (params.get('login') === 'true') {
+      return 'login'
+    }
 
-      if (params.get('register') === 'true') {
-        return 'register'
-      }
+    if (params.get('register') === 'true') {
+      return 'register'
+    }
 
-      return null
-    },
-    [location.search]
-  )
+    return null
+  }, [])
 
   const clearAuthQueryParams = useCallback(() => {
     // If URL opens login/register form, allow outside click to close it permanently
@@ -189,10 +173,6 @@ const Nav = () => {
   }, [toolbar, mainMenu])
 
   const dispatch = useAppDispatch()
-
-  const handleLogout = useCallback(() => {
-    void dispatch(logout())
-  }, [dispatch])
 
   // From URL params
   useEffect(() => {
@@ -303,52 +283,20 @@ const Nav = () => {
     ]
   }, [t])
 
-  const [triggerAtBreakpoint, setTriggerAtBreakpoint] = useState<boolean>(false)
+  const [, setTriggerAtBreakpoint] = useState<boolean>(false)
 
   useEffect(() => {
-    // when crossing the breakpoint to either direction, set triggerAtBreakpoint to true
-    if (!triggerAtBreakpoint && windowWidth >= breakpoint) {
+    const rafId = requestAnimationFrame(() => {
       setTriggerAtBreakpoint(true)
       requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          // frame #3:
-          setTriggerAtBreakpoint(false)
-        })
+        setTriggerAtBreakpoint(false)
       })
-    } else if (!triggerAtBreakpoint && windowWidth < breakpoint) {
-      setTriggerAtBreakpoint(true)
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          // frame #3:
-          setTriggerAtBreakpoint(false)
-        })
-      })
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [windowWidth, breakpoint])
+    })
 
-  const icons = useCallback(
-    (label: string) => {
-      if (label === t('Welcome'))
-        return (
-          <Icon
-            lib="ri"
-            name="RiHomeSmileLine"
-            className={windowWidth < breakpoint ? styles.smallnav : ''}
-          />
-        )
-      else if (label === t('Contact'))
-        return (
-          <Icon
-            lib="bi"
-            name="BiChat"
-            className={windowWidth < breakpoint ? styles.smallnav : ''}
-          />
-        )
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [t, triggerAtBreakpoint]
-  )
+    return () => {
+      cancelAnimationFrame(rafId)
+    }
+  }, [windowWidth])
 
   //get last part of pathname for header class
   const pageName =
@@ -444,14 +392,20 @@ const Nav = () => {
               options={options(ELanguagesLong)}
               value={
                 language
-                  ? ({
+                  ? {
                       value: language,
                       label: ELanguagesLong[language],
-                    } as SelectOption)
+                    }
                   : undefined
               }
               onChange={(o) => {
-                setLanguage(o?.value as ELanguages)
+                const nextLanguage: unknown = o?.value
+                if (
+                  typeof nextLanguage === 'string' &&
+                  Object.values(ELanguages).includes(nextLanguage as ELanguages)
+                ) {
+                  setLanguage(nextLanguage as ELanguages)
+                }
               }}
             />
             <div className={styles.toolwrap}>

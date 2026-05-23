@@ -3,7 +3,7 @@ const BLOB_MIGRATION_PREFIX = '__blob_art_migration__:'
 const BLOB_STORAGE_KEY_PATTERN =
   /^(BlobCanvasSize|BlobCanvasOffset|BlobLayerAmount|BackgroundColor|Draggables)\d+$/
 
-type BlobMigrationPayload = {
+interface BlobMigrationPayload {
   source?: string
   timestamp?: number
   storage: Record<string, string>

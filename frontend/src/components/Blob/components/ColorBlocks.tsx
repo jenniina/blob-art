@@ -11,10 +11,6 @@ interface ColorBlockProps {
   colorBlockProps: RefObject<HTMLButtonElement>[][]
   colorPairs: ColorPair[][]
   map: Map<RefObject<HTMLButtonElement>, string>[]
-  getRefName: (
-    refNameMapping: Map<RefObject<HTMLButtonElement>, string>,
-    ref: RefObject<HTMLButtonElement>
-  ) => string | undefined
   setSelectedColor: (value: string) => void
   selectedColor: string
   mode: Modes
@@ -27,7 +23,6 @@ const ColorBlocks: FC<ColorBlockProps> = ({
   colorsVisible,
   colorBlockProps,
   colorPairs,
-  getRefName,
   map,
   setSelectedColor,
   selectedColor,
@@ -38,6 +33,7 @@ const ColorBlocks: FC<ColorBlockProps> = ({
   const { t } = useLanguageContext()
 
   const colorLength = colorBlockProps[d].length
+  const refNames = Array.from(map[d].values())
 
   const handleClick = (color: string) => {
     if (selectedColor === color) {
@@ -51,7 +47,7 @@ const ColorBlocks: FC<ColorBlockProps> = ({
   return (
     <>
       {colorBlockProps[d].map((colorBlock, index) => {
-        const refName = getRefName(map[d], colorBlock)
+        const refName = refNames[index]
         const colorNameKey = refName?.replace(/^color/, '') as
           | TranslationKey
           | undefined

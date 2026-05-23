@@ -9,7 +9,6 @@ import dog from '../assets/blob-dog.png'
 import { CSSProperties, useState } from 'react'
 import { useLanguageContext } from '../contexts/LanguageContext'
 import SEO from '../components/SEO/SEO'
-import useWindowSize from '../hooks/useWindowSize'
 import { useModal } from '../hooks/useModal'
 import Icon from '../components/Icon/Icon'
 import BlobArtLogo from '../components/Icon/BlobArtLogo'
@@ -22,10 +21,6 @@ export default function BlobPage({ type }: { type: string }) {
   const toggleAccordion = (accordionName: string) => {
     setOpenAccordion((prev) => (prev === accordionName ? null : accordionName))
   }
-
-  const { windowWidth } = useWindowSize()
-
-  const breakpoint = 700
 
   const sampleArtwork = [
     {
