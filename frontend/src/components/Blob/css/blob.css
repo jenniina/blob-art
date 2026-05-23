@@ -968,14 +968,14 @@ body.dark-mode .site .drag-container .dragzone:focus-visible {
   position: relative;
 }
 .blob-info-section {
-  margin: 3em auto 2em;
+  margin: 3rem auto 2.4rem;
 }
 .blob .blob-title-wrap {
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
   align-items: center;
-  margin: 2em auto 2.8em;
+  margin: 2rem auto 4rem;
   width: max-content;
 }
 .blob .blob-title-wrap .blob-title {
