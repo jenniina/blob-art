@@ -621,7 +621,6 @@ svg.filter {
 .drag-container .button-container button {
   height: 3.3rem;
   width: 3.3rem;
-  border-radius: 48% 52% 50% 50% / 60% 59% 41% 40%;
 }
 .button-container button svg {
   font-size: 2.6rem;
@@ -1779,11 +1778,18 @@ body.dark-mode .site .drag-container .dragzone:focus-visible {
   margin-top: -0.2rem;
   margin-bottom: 2rem;
 }
+.drag-container .button-container button,
+.accordion-wrap .button {
+  border-radius: 48% 52% 50% 50% / 55% 54% 46% 45%;
+}
+.accordion-row > button.blob-tips-and-tricks .accordion-wrap .button,
+.button-container > div:nth-child(odd) button {
+  border-radius: 48% 51% 44% 49% / 59% 61% 34% 36%;
+}
 .accordion-wrap .button {
   height: 3.3rem;
   width: 3.3rem;
   padding: 0.6rem;
-  border-radius: 48% 52% 50% 50% / 60% 59% 41% 40%;
 }
 .button-container {
   flex-flow: column nowrap;
