@@ -71,6 +71,42 @@ const SkipLink: FC<SkipLinkProps> = ({ skipLinks, styles }) => {
   )
 }
 
+const OtherSites = () => {
+  const { t } = useLanguageContext()
+  return (
+    <div className="mt1">
+      <span>{t('YouMayLogInToTheseSitesWithTheSameCredentials')}:</span>
+      <ul className="ul">
+        <li>
+          <a className="tooltip-wrap" href="https://blobs.jenniina.fi">
+            {t('BlobArtApp')}
+            <span className="tooltip narrow2 right above">
+              {t('BlobAppIntro')}
+            </span>
+          </a>
+        </li>
+        <li>
+          <a className="tooltip-wrap" href="https://jokes.jenniina.fi">
+            {t('TheComediansCompanion')}
+            <span className="tooltip narrow2 right above">
+              {t('JokeAppWithCustomizableOptions')}.{' '}
+              {t('YouMaySaveYourFavoriteJokesOrAddYourOwn')}
+            </span>
+          </a>
+        </li>
+        <li>
+          <a className="tooltip-wrap" href="https://react.jenniina.fi">
+            {t('JenniinasReactPortfolio')}
+            <span className="tooltip narrow2 right above">
+              {t('PortfolioIntro')}
+            </span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  )
+}
+
 const Nav = () => {
   const isClient = useIsClient()
   const windowObj = useWindow()
@@ -497,9 +533,13 @@ const Nav = () => {
                       </div>
                     </div>
                   </div>
+                  <OtherSites />
                 </>
               ) : (
-                <FormLogin text="nav" />
+                <>
+                  <FormLogin text="nav" />
+                  <OtherSites />
+                </>
               )}
             </div>
           </nav>
