@@ -6,6 +6,7 @@ import { updateUsername } from '../../../reducers/usersReducer'
 import { getErrorMessage } from '../../../utils'
 import { useLanguageContext } from '../../../contexts/LanguageContext'
 import { login, logout } from '../../../reducers/authReducer'
+import ButtonUnavailableAction from '../../ButtonUnavailableAction/ButtonUnavailableAction'
 import styles from '../css/edit.module.css'
 
 interface Props {
@@ -87,6 +88,12 @@ const UsernameEdit = ({ user }: Props) => {
 
   if (!user) return null
 
+  const unavailableReason = sending
+    ? t('Saving')
+    : user.name === 'temp'
+      ? t('CannotBeChangedForTestUser')
+      : ''
+
   return (
     <>
       <h2>{t('EditEmail')}</h2>
@@ -134,9 +141,13 @@ const UsernameEdit = ({ user }: Props) => {
         {user.name === 'temp' && (
           <small>({t('CannotBeChangedForTestUser')})</small>
         )}
-        <button type="submit" disabled={sending || user.name === 'temp'}>
+        <ButtonUnavailableAction
+          type="submit"
+          unavailable={Boolean(unavailableReason)}
+          unavailableReason={unavailableReason}
+        >
           {t('Edit')}
-        </button>
+        </ButtonUnavailableAction>
       </form>
     </>
   )

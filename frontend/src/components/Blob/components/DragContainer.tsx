@@ -44,6 +44,7 @@ import Sliders from './Sliders'
 // import DragLayers from './DragLayers'
 import { getErrorMessage } from '../../../utils'
 import Icon from '../../Icon/Icon'
+import ButtonUnavailableAction from '../../ButtonUnavailableAction/ButtonUnavailableAction'
 import useLocalStorage from '../../../hooks/useStorage'
 import { useTheme } from '../../../hooks/useTheme'
 
@@ -2922,59 +2923,55 @@ export default function DragContainer({
     position: 'start' | 'end'
   ) => {
     const itemsPerPageId = `items-per-page${d}-${dKey}-${position}`
+    const isFirstPage = current === 1
+    const isLastPage = current === totalPages
+
     return hasSavedFiles ? (
       <div className="pagination-controls">
-        {current !== 1 ? (
-          <>
-            <button
-              onClick={() => handlePageChange(Number(dKey), 1)}
-              disabled={current === 1}
-              className="btn-small pagination-btn"
-            >
-              &laquo;&nbsp;<span className="scr">{t('BackToStart')}</span>
-            </button>
-            <button
-              onClick={() =>
-                handlePageChange(Number(dKey), Math.max(current - 1, 1))
-              }
-              disabled={current === 1}
-              className="btn-small pagination-btn"
-            >
-              &nbsp;&lsaquo;&nbsp;<span className="scr">{t('Previous')}</span>
-            </button>
-          </>
-        ) : (
-          <></>
-        )}
+        <ButtonUnavailableAction
+          onClick={() => handlePageChange(Number(dKey), 1)}
+          unavailable={isFirstPage}
+          unavailableReason={isFirstPage ? t('AlreadyOnFirstPage') : ''}
+          className="btn-small pagination-btn"
+          tooltipClassName="tooltip above narrow2"
+        >
+          &laquo;&nbsp;<span className="scr">{t('BackToStart')}</span>
+        </ButtonUnavailableAction>
+        <ButtonUnavailableAction
+          onClick={() =>
+            handlePageChange(Number(dKey), Math.max(current - 1, 1))
+          }
+          unavailable={isFirstPage}
+          unavailableReason={isFirstPage ? t('AlreadyOnFirstPage') : ''}
+          className="btn-small pagination-btn"
+          tooltipClassName="tooltip above narrow2"
+        >
+          &nbsp;&lsaquo;&nbsp;<span className="scr">{t('Previous')}</span>
+        </ButtonUnavailableAction>
         <span>
           {t('Page')} {current} / {totalPages}
         </span>
-        {current !== totalPages ? (
-          <>
-            <button
-              onClick={() =>
-                handlePageChange(
-                  Number(dKey),
-                  Math.min(current + 1, totalPages)
-                )
-              }
-              disabled={current === totalPages}
-              className="btn-small pagination-btn"
-            >
-              <span className="scr">{t('Next')}</span>&nbsp;&rsaquo;&nbsp;
-            </button>
+        <ButtonUnavailableAction
+          onClick={() =>
+            handlePageChange(Number(dKey), Math.min(current + 1, totalPages))
+          }
+          unavailable={isLastPage}
+          unavailableReason={isLastPage ? t('AlreadyOnLastPage') : ''}
+          className="btn-small pagination-btn"
+          tooltipClassName="tooltip above narrow2"
+        >
+          <span className="scr">{t('Next')}</span>&nbsp;&rsaquo;&nbsp;
+        </ButtonUnavailableAction>
 
-            <button
-              onClick={() => handlePageChange(Number(dKey), totalPages)}
-              disabled={current === totalPages}
-              className="btn-small pagination-btn"
-            >
-              <span className="scr">{t('ToLastPage')}</span>&nbsp;&raquo;
-            </button>
-          </>
-        ) : (
-          <></>
-        )}
+        <ButtonUnavailableAction
+          onClick={() => handlePageChange(Number(dKey), totalPages)}
+          unavailable={isLastPage}
+          unavailableReason={isLastPage ? t('AlreadyOnLastPage') : ''}
+          className="btn-small pagination-btn"
+          tooltipClassName="tooltip above narrow2"
+        >
+          <span className="scr">{t('ToLastPage')}</span>&nbsp;&raquo;
+        </ButtonUnavailableAction>
         <div className="input-wrap items-per-page">
           <label htmlFor={itemsPerPageId}>
             <input
@@ -3163,13 +3160,15 @@ export default function DragContainer({
                 )}
               </div>
               <div className="flex column gap-half">
-                <button
+                <ButtonUnavailableAction
                   type="button"
                   id={`take-screenshot${d}`}
                   aria-labelledby={`take-screenshot${d}-span`}
-                  disabled={loading}
+                  unavailable={loading}
+                  unavailableReason={loading ? t('Loading') : ''}
                   onClick={() => void takeScreenshot()}
                   className="screenshot tooltip-wrap"
+                  tooltipClassName="tooltip left above"
                 >
                   <Icon lib="im" name="ImCamera" aria-hidden="true" />
 
@@ -3179,7 +3178,7 @@ export default function DragContainer({
                   >
                     {loading ? t('Loading') : t('ClickHereToTakeAScreenshot')}
                   </span>
-                </button>
+                </ButtonUnavailableAction>
                 <i className="label">{t('Screenshot')} </i>
               </div>
             </div>
@@ -3526,38 +3525,42 @@ export default function DragContainer({
 
             <div className="layer-mover-control-wrap">
               <div className="history-btn-wrap">
-                <button
+                <ButtonUnavailableAction
                   id={`undo-${d}`}
                   aria-labelledby={`undo-${d}-span`}
                   className="history-button tooltip-wrap narrow2"
-                  disabled={!canUndo}
+                  unavailable={!canUndo}
+                  unavailableReason={!canUndo ? t('NothingToUndo') : ''}
                   onClick={() => {
                     activeBlobContainerId = d
                     undo()
                   }}
+                  tooltipClassName="tooltip above"
                 >
                   <span id={`undo-${d}-span`}>
                     <span className="scr">{t('Undo')}</span>
                     <Icon lib="bi" name="BiUndo" aria-hidden="true" />
                     <span className="tooltip above">{`${t('Undo')} (Ctrl+Z)`}</span>
                   </span>
-                </button>
-                <button
+                </ButtonUnavailableAction>
+                <ButtonUnavailableAction
                   id={`redo-${d}`}
                   aria-labelledby={`redo-${d}-span`}
                   className="history-button tooltip-wrap narrow2"
-                  disabled={!canRedo}
+                  unavailable={!canRedo}
+                  unavailableReason={!canRedo ? t('NothingToRedo') : ''}
                   onClick={() => {
                     activeBlobContainerId = d
                     redo()
                   }}
+                  tooltipClassName="tooltip above"
                 >
                   <span id={`redo-${d}-span`}>
                     <span className="scr">{t('Redo')}</span>
                     <Icon lib="bi" name="BiRedo" aria-hidden="true" />
                     <span className="tooltip above">{`${t('Redo')} (Ctrl+Shift+Z / Ctrl+Y)`}</span>
                   </span>
-                </button>
+                </ButtonUnavailableAction>
               </div>
 
               <div className="layer-btn-wrap layers">
@@ -3607,12 +3610,16 @@ export default function DragContainer({
                   &times;
                 </button>
 
-                <button
+                <ButtonUnavailableAction
                   id={`increase-layer-amount${d}`}
-                  disabled={layerAmount >= 9}
                   aria-labelledby={`increase-layer-amount${d}-span`}
                   className="layer-tool layer-amount increase-layer-amount tooltip-wrap narrow2"
+                  unavailable={layerAmount >= 9}
+                  unavailableReason={
+                    layerAmount >= 9 ? t('MaximumLayersReached') : ''
+                  }
                   onClick={() => addToLayerAmount(1)}
+                  tooltipClassName="tooltip above"
                 >
                   <span
                     id={`increase-layer-amount${d}-span`}
@@ -3621,7 +3628,7 @@ export default function DragContainer({
                     {t('GetMoreLayers')}
                   </span>
                   <Icon lib="bi" name="BiPlus" aria-hidden="true" />
-                </button>
+                </ButtonUnavailableAction>
               </div>
 
               <div className="layer-btn-wrap layer-tools layer-tools2">
@@ -3731,29 +3738,40 @@ export default function DragContainer({
             {user ? (
               <div className="blob-handling">
                 <div className="full wide flex column center gap">
-                  <form onSubmit={(e) => void saveBlobsToServer(e)}>
-                    <div className="input-wrap">
-                      <label htmlFor={`blobname${d}`}>
-                        <input
-                          id={`blobname${d}`}
-                          type="text"
-                          value={name}
-                          onChange={handleNameChange}
-                          placeholder={t('NameYourArtwork')}
-                          maxLength={30}
-                        />
-                        <span>{t('NameYourArtwork')}:</span>
-                      </label>
-                    </div>
-                    <button
-                      disabled={user?.name === 'temp' || loading ? true : false}
-                      type="submit"
-                    >
-                      {user?.name === 'temp'
-                        ? t('TempUserCannotSave')
-                        : t('Save')}
-                    </button>
-                  </form>
+                  {(() => {
+                    const artUnavailableReason = loading
+                      ? t('Loading')
+                      : user?.name === 'temp'
+                        ? t('UnavailableForTestUser')
+                        : ''
+
+                    return (
+                      <form onSubmit={(e) => void saveBlobsToServer(e)}>
+                        <div className="input-wrap">
+                          <label htmlFor={`blobname${d}`}>
+                            <input
+                              id={`blobname${d}`}
+                              type="text"
+                              value={name}
+                              onChange={handleNameChange}
+                              placeholder={t('NameYourArtwork')}
+                              maxLength={30}
+                            />
+                            <span>{t('NameYourArtwork')}:</span>
+                          </label>
+                        </div>
+                        <ButtonUnavailableAction
+                          unavailable={Boolean(artUnavailableReason)}
+                          unavailableReason={artUnavailableReason}
+                          type="submit"
+                        >
+                          {user?.name === 'temp'
+                            ? t('TempUserCannotSave')
+                            : t('Save')}
+                        </ButtonUnavailableAction>
+                      </form>
+                    )
+                  })()}
                 </div>
 
                 <h3>{t('Art')}</h3>
@@ -3802,9 +3820,12 @@ export default function DragContainer({
                                     {t('Load')}{' '}
                                     <span className="scr">{versionName}</span>
                                   </button>
-                                  <button
-                                    disabled={
-                                      user?.name === 'temp' ? true : false
+                                  <ButtonUnavailableAction
+                                    unavailable={user?.name === 'temp'}
+                                    unavailableReason={
+                                      user?.name === 'temp'
+                                        ? t('UnavailableForTestUser')
+                                        : ''
                                     }
                                     onClick={() =>
                                       void deleteBlobsVersionFromServer(
@@ -3815,7 +3836,7 @@ export default function DragContainer({
                                   >
                                     {t('Delete')}{' '}
                                     <span className="scr">{versionName}</span>
-                                  </button>
+                                  </ButtonUnavailableAction>
                                   <Accordion
                                     id={`accordion-blobnewname-${sanitize(
                                       versionName
@@ -3856,9 +3877,12 @@ export default function DragContainer({
                                           </span>
                                         </label>
                                       </div>
-                                      <button
-                                        disabled={
-                                          user?.name === 'temp' ? true : false
+                                      <ButtonUnavailableAction
+                                        unavailable={user?.name === 'temp'}
+                                        unavailableReason={
+                                          user?.name === 'temp'
+                                            ? t('UnavailableForTestUser')
+                                            : ''
                                         }
                                         onClick={() => {
                                           if (versionName !== newName) {
@@ -3883,7 +3907,7 @@ export default function DragContainer({
                                           {versionName}: {t('NewName')}{' '}
                                           {newName}
                                         </span>
-                                      </button>
+                                      </ButtonUnavailableAction>
                                     </>
                                   </Accordion>
                                 </div>

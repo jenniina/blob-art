@@ -7,6 +7,7 @@ import { notify } from '../../../reducers/notificationReducer'
 import { findUserById, updateUser } from '../../../reducers/usersReducer'
 import { getErrorMessage } from '../../../utils'
 import { useLanguageContext } from '../../../contexts/LanguageContext'
+import ButtonUnavailableAction from '../../ButtonUnavailableAction/ButtonUnavailableAction'
 import styles from '../css/edit.module.css'
 
 interface Props {
@@ -88,10 +89,10 @@ const LanguageEdit = ({ user, options }: Props) => {
           options={options(ELanguagesLong)}
           value={
             lang
-              ? ({
+              ? {
                   value: lang,
                   label: ELanguagesLong[lang],
-                })
+                }
               : undefined
           }
           onChange={(option) => {
@@ -111,9 +112,13 @@ const LanguageEdit = ({ user, options }: Props) => {
             <span>{t('CurrentPassword')}</span>
           </label>
         </div>
-        <button type="submit" disabled={sending}>
+        <ButtonUnavailableAction
+          type="submit"
+          unavailable={sending}
+          unavailableReason={sending ? t('Saving') : ''}
+        >
           {t('Edit')}
-        </button>
+        </ButtonUnavailableAction>
       </form>
     </>
   )
