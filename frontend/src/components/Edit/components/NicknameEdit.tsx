@@ -6,6 +6,7 @@ import { notify } from '../../../reducers/notificationReducer'
 import { findUserById, updateUser } from '../../../reducers/usersReducer'
 import { getErrorMessage } from '../../../utils'
 import { useLanguageContext } from '../../../contexts/LanguageContext'
+import ButtonUnavailableAction from '../../ButtonUnavailableAction/ButtonUnavailableAction'
 import styles from '../css/edit.module.css'
 
 interface Props {
@@ -61,6 +62,12 @@ const NicknameEdit = ({ user }: Props) => {
 
   if (!user) return null
 
+  const unavailableReason = sending
+    ? t('Saving')
+    : user.name === 'temp'
+      ? t('CannotBeChangedForTestUser')
+      : ''
+
   return (
     <>
       <h2>{t('EditPreferredNickname')}</h2>
@@ -101,9 +108,13 @@ const NicknameEdit = ({ user }: Props) => {
             <span>{t('CurrentPassword')}</span>
           </label>
         </div>
-        <button type="submit" disabled={sending || user.name === 'temp'}>
+        <ButtonUnavailableAction
+          type="submit"
+          unavailable={Boolean(unavailableReason)}
+          unavailableReason={unavailableReason}
+        >
           {t('Edit')}
-        </button>
+        </ButtonUnavailableAction>
       </form>
     </>
   )

@@ -6,6 +6,7 @@ import { useAppDispatch } from '../../hooks/useAppDispatch'
 import { initializeUser } from '../../reducers/authReducer'
 import { Link } from 'react-router-dom'
 import { useLanguageContext } from '../../contexts/LanguageContext'
+import ButtonUnavailableAction from '../ButtonUnavailableAction/ButtonUnavailableAction'
 
 interface Props {
   handleRegister: (e: FormEvent<HTMLFormElement>) => void
@@ -142,9 +143,14 @@ const Register = ({
                 >
                   <small>{t('Info')}</small>
                 </Link>
-                <button type="submit" disabled={sending} className="restore">
+                <ButtonUnavailableAction
+                  type="submit"
+                  unavailable={sending}
+                  unavailableReason={sending ? t('Saving') : ''}
+                  className="restore"
+                >
                   {t('Register')}
-                </button>
+                </ButtonUnavailableAction>
               </form>
             </>
           </Accordion>

@@ -869,6 +869,7 @@ nav .open.password-reset-container button.forgot-btn {
   min-width: var(--width);
   width: var(--width);
   pointer-events: none;
+  text-decoration: none;
 }
 #root .App .tooltip-wrap .tooltip.narrow,
 #root .App .tooltip-wrap.narrow .tooltip,
